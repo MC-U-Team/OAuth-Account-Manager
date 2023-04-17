@@ -82,6 +82,11 @@ minecraft {
 	}
 }
 
+configurations {
+	shade
+	implementation.extendsFrom(shade)
+}
+
 tasks.withType(Jar) { task ->
 	gradlefiles.defaultJar(task)
 }
@@ -116,6 +121,20 @@ dependencies {
 	minecraft gradlefiles.forgeDependency()
 	
 	implementation fg.deobf("info.u-team:u_team_core-forge-1.19.4:5.0.0.248")
+	
+	shade ("net.hycrafthd:simple_minecraft_authenticator:2.1.0") {
+		exclude group: "com.google.code.gson", module: "gson"
+	}
+}
+
+gradlefiles.removePublishingDependency { dependency ->
+	"simple_minecraft_authenticator".equals(dependency.name) || "minecraft_authenticator".equals(dependency.name)
+}
+
+minecraft.runs.all {
+	lazyToken("minecraft_classpath") {
+		configurations.shade.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+	}
 }
 
 curseforge {
