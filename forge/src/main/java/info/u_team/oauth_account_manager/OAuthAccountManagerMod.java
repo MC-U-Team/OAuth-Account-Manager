@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod(OAuthAccountManagerMod.MODID)
 public class OAuthAccountManagerMod {
 	
-	public static final String MODID = "oauthaccountmanager";
+	public static final String MODID = OAuthAccountManagerModReference.MODID;
 	public static final Logger LOGGER = LogUtils.getLogger();
 	
 	public OAuthAccountManagerMod() {
