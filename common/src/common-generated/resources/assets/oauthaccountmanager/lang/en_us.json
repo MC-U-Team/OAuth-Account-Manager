@@ -1,4 +1,7 @@
 {
 	"screen.oauthaccountmanager.accounts.title": "Manage Minecraft Accounts",
-	"screen.oauthaccountmanager.multiplayer_addition.account_button": "Accounts"
+	"screen.oauthaccountmanager.multiplayer_addition.account_button": "Accounts",
+	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.checking": "Checking current account session",
+	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.invalid": "Session token is invalid",
+	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.valid": "You are currently logged in as %s"
 }
