@@ -2,12 +2,12 @@ package info.u_team.oauth_account_manager.screen;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.u_team_core.screen.UScreen;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class AccountsScreen extends UScreen {
 	
-	public AccountsScreen(JoinMultiplayerScreen screen) {
+	public AccountsScreen(Screen screen) {
 		super(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE));
 	}
 	
