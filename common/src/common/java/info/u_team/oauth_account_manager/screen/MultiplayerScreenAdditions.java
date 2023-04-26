@@ -13,7 +13,7 @@ public class MultiplayerScreenAdditions {
 		final UButton button = new UButton(0, 0, 74, 16, Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON));
 		FrameLayout.centerInRectangle(button, 117, 0, screen.width, 45);
 		button.setPressable(() -> {
-			Minecraft.getInstance().setScreen(new AccountScreen());
+			Minecraft.getInstance().setScreen(new AccountsScreen());
 		});
 		return button;
 	}
