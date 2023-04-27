@@ -6,6 +6,7 @@ import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -27,9 +28,10 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	protected void init() {
 		super.init();
 		
-		message = MultiLineLabel.create(font, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE), width - 50);
+		message = MultiLineLabel.create(font, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, Component.translatable("chat.link.open"), Component.translatable("chat.copy")), width - 50);
 		
 		final LoadingSpinnerWidget spinner = addRenderableWidget(new LoadingSpinnerWidget(0, 0, 60, 60));
+		spinner.setTooltip(Tooltip.create(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_SPINNER_TOOLTIP)));
 		FrameLayout.centerInRectangle(spinner, 0, 0, width, height);
 		
 		final UButton openLink = addRenderableWidget(new UButton(0, 0, 100, 20, Component.translatable("chat.link.open")));

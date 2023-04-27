@@ -5,6 +5,7 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_SPINNER_TOOLTIP;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING;
@@ -28,7 +29,9 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_ACCOUNTS_DELETE_BUTTON, "Delete");
 		
 		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE, "Add new Minecraft Account");
-		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, "Open the following link by clicking 'Open' or 'Copy to Clipboard'");
+		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, "Open the minecraft login page with the button '%s' or '%s'");
+		
+		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_SPINNER_TOOLTIP, "Waiting for user action");
 		
 		add(SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON, "Accounts");
 		add(SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING, "Checking current account session");

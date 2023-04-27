@@ -9,6 +9,7 @@ public class OAuthAccountManagerLocalization {
 	
 	public static final String SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE = "screen.oauthaccountmanager.add_account_open_link.title";
 	public static final String SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE = "screen.oauthaccountmanager.add_account_open_link.message";
+	public static final String SCREEN_ADD_ACCOUNT_OPEN_LINK_SPINNER_TOOLTIP = "screen.oauthaccountmanager.add_account_open_link.spinner.tooltip";
 	
 	public static final String SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON = "screen.oauthaccountmanager.multiplayer_addition.account_button";
 	public static final String SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING = "screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.checking";
