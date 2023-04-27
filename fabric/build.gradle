@@ -37,9 +37,9 @@ java {
 	withJavadocJar()
 }
 
-loom {	
+loom {
 	runs {
-		client {			
+		client {
 			runDir "run/client"
 			ideConfigGenerated true
 		}
@@ -49,6 +49,11 @@ loom {
 			ideConfigGenerated true
 		}
 	}
+}
+
+configurations {
+	shade
+	implementation.extendsFrom(shade)
 }
 
 tasks.withType(Jar) { task ->
@@ -97,6 +102,10 @@ dependencies {
 	modImplementation gradlefiles.fabricApiDependency()
 	
 	modImplementation "info.u-team:u_team_core-fabric-1.19.4:5.0.1.249"
+	
+	shade ("net.hycrafthd:simple_minecraft_authenticator:2.1.1") {
+		exclude group: "com.google.code.gson", module: "gson"
+	}
 }
 
 processResources {
