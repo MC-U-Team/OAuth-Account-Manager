@@ -5,6 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
+import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
+import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
+import net.minecraft.Util;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
@@ -12,6 +15,7 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.LoggedPrintStream;
 
 public class AddAccountOpenLinkScreen extends UScreen {
 	
@@ -35,7 +39,11 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		FrameLayout.centerInRectangle(spinner, 0, 0, width, height);
 		
 		final UButton openLink = addRenderableWidget(new UButton(0, 0, 100, 20, Component.translatable("chat.link.open")));
+		openLink.setPressable(() -> startAuthenticationProcess(true));
+		
 		final UButton copyClipboard = addRenderableWidget(new UButton(0, 0, 100, 20, Component.translatable("chat.copy")));
+		copyClipboard.setPressable(() -> startAuthenticationProcess(false));
+		
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
 		
@@ -64,5 +72,22 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	@Override
 	public void onClose() {
 		minecraft.setScreen(lastScreen);
+	}
+	
+	private void startAuthenticationProcess(boolean open) {
+		final AuthenticationMethod method = SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
+		
+		method.registerLoginUrlCallback(url -> {
+			if (open) {
+				Util.getPlatform().openUrl(url);
+			} else {
+				minecraft.keyboardHandler.setClipboard(url.toString());
+			}
+		});
+		
+		final AddAccountInformationScreen screen = new AddAccountInformationScreen(lastScreen);
+		screen.authenticate(method);
+		
+		minecraft.setScreen(screen);
 	}
 }
