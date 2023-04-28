@@ -1,4 +1,4 @@
-package info.u_team.oauth_account_manager.screen;
+package info.u_team.oauth_account_manager.screen.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

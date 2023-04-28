@@ -3,6 +3,7 @@ package info.u_team.oauth_account_manager.screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.screen.widget.LoadingSpinnerWidget;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
@@ -66,7 +67,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		super.renderForeground(poseStack, mouseX, mouseY, partialTick);
 		
 		drawCenteredString(poseStack, font, title, width / 2, 20, 0xFFFFFF);
-		message.renderCentered(poseStack, this.width / 2, 60);
+		message.renderCentered(poseStack, width / 2, 60);
 	}
 	
 	@Override
@@ -77,15 +78,16 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	private void startAuthenticationProcess(boolean open) {
 		final AuthenticationMethod method = SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
 		
+		final AddAccountInformationScreen screen = new AddAccountInformationScreen(lastScreen);
+		
 		method.registerLoginUrlCallback(url -> {
 			if (open) {
 				Util.getPlatform().openUrl(url);
 			} else {
 				minecraft.keyboardHandler.setClipboard(url.toString());
 			}
+			screen.loginLink(url);
 		});
-		
-		final AddAccountInformationScreen screen = new AddAccountInformationScreen(lastScreen);
 		screen.authenticate(method);
 		
 		minecraft.setScreen(screen);
