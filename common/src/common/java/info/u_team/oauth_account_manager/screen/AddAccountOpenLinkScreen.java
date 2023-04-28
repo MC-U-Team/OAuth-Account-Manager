@@ -3,14 +3,12 @@ package info.u_team.oauth_account_manager.screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
-import info.u_team.oauth_account_manager.screen.widget.LoadingSpinnerWidget;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.MultiLineLabel;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -34,10 +32,6 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		super.init();
 		
 		message = MultiLineLabel.create(font, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, Component.translatable("chat.link.open"), Component.translatable("chat.copy")), width - 50);
-		
-		final LoadingSpinnerWidget spinner = addRenderableWidget(new LoadingSpinnerWidget(0, 0, 60, 60));
-		spinner.setTooltip(Tooltip.create(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_SPINNER_TOOLTIP)));
-		FrameLayout.centerInRectangle(spinner, 0, 0, width, height);
 		
 		final UButton openLink = addRenderableWidget(new UButton(0, 0, 100, 20, Component.translatable("chat.link.open")));
 		openLink.setPressable(() -> startAuthenticationProcess(true));
@@ -67,7 +61,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		super.renderForeground(poseStack, mouseX, mouseY, partialTick);
 		
 		drawCenteredString(poseStack, font, title, width / 2, 20, 0xFFFFFF);
-		message.renderCentered(poseStack, width / 2, 60);
+		message.renderCentered(poseStack, width / 2, height / 2 - 40);
 	}
 	
 	@Override
@@ -86,7 +80,6 @@ public class AddAccountOpenLinkScreen extends UScreen {
 			} else {
 				minecraft.keyboardHandler.setClipboard(url.toString());
 			}
-			screen.loginLink(url);
 		});
 		screen.authenticate(method);
 		
