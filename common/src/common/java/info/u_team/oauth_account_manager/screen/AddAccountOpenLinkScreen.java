@@ -71,18 +71,18 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	
 	private void startAuthenticationProcess(boolean open) {
 		final AuthenticationMethod method = SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
+		method.registerLoginUrlCallback(url -> {
+			minecraft.execute(() -> {
+				if (open) {
+					Util.getPlatform().openUrl(url);
+				} else {
+					minecraft.keyboardHandler.setClipboard(url.toString());
+				}
+			});
+		});
 		
 		final AddAccountInformationScreen screen = new AddAccountInformationScreen(lastScreen);
-		
-		method.registerLoginUrlCallback(url -> {
-			if (open) {
-				Util.getPlatform().openUrl(url);
-			} else {
-				minecraft.keyboardHandler.setClipboard(url.toString());
-			}
-		});
 		screen.authenticate(method);
-		
 		minecraft.setScreen(screen);
 	}
 }
