@@ -65,11 +65,15 @@ public class CommonWaitingScreen extends UScreen {
 	
 	@Override
 	protected void repositionElements() {
-		final Component message = messageWidget.getMessage();
-		final boolean active = doneButton.active;
+		final Component messageWidgetMessage = messageWidget.getMessage();
+		final boolean doneButtonActive = doneButton.active;
+		final boolean spinnerWidgetActive = spinnerWidget.active;
+		final boolean spinnerWidgetVisible = spinnerWidget.visible;
 		super.repositionElements();
-		setInformationMessage(message);
-		doneButton.active = active;
+		setInformationMessage(messageWidgetMessage);
+		doneButton.active = doneButtonActive;
+		spinnerWidget.active = spinnerWidgetActive;
+		spinnerWidget.visible = spinnerWidgetVisible;
 	}
 	
 	protected void setInformationMessage(Component component) {

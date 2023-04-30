@@ -81,7 +81,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 			});
 		});
 		
-		final AddAccountInformationScreen screen = new AddAccountInformationScreen(lastScreen);
+		final AddAccountOAuthScreen screen = new AddAccountOAuthScreen(lastScreen);
 		screen.authenticate(method);
 		minecraft.setScreen(screen);
 	}
