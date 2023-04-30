@@ -1,6 +1,7 @@
 package info.u_team.oauth_account_manager.init;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerMod;
+import info.u_team.oauth_account_manager.util.MinecraftAccounts;
 import info.u_team.u_team_core.api.construct.Construct;
 import info.u_team.u_team_core.api.construct.ModConstruct;
 import info.u_team.u_team_core.util.registry.BusRegister;
@@ -10,6 +11,8 @@ public class OAuthAccountManagerClientConstruct implements ModConstruct {
 	
 	@Override
 	public void construct() {
+		MinecraftAccounts.enqueueLoad();
+		
 		BusRegister.registerForge(OAuthAccountManagerEventHandler::registerForge);
 	}
 }

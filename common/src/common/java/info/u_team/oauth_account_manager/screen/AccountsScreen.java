@@ -29,15 +29,6 @@ public class AccountsScreen extends UScreen {
 		final UButton addButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_ADD_BUTTON)));
 		addButton.setPressable(() -> {
 			minecraft.setScreen(new AddAccountOpenLinkScreen(this));
-			
-			// minecraft.setScreen(new ConfirmLinkScreen(autoOpen -> {
-			// if (autoOpen) {
-			// Util.getPlatform().openUri("https://aka.ms/javablocking");
-			// }
-			//
-			// this.minecraft.setScreen(this);
-			// }, Component.literal("Title"), Component.literal("Message"), "https://aka.ms/javablocking",
-			// CommonComponents.GUI_CANCEL, true));
 		});
 		
 		final UButton deleteButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON)));
@@ -53,19 +44,6 @@ public class AccountsScreen extends UScreen {
 		layout.arrangeElements();
 		
 		FrameLayout.centerInRectangle(layout, 0, height - 64, width, 64);
-		// try {
-		// Authenticator authenticator =
-		// SimpleMinecraftAuthentication.getMethodOrThrow("web").create().initalAuthentication().buildAuthenticator();
-		// authenticator.run(state -> System.out.println("Current state:" + state));
-		// System.out.println(authenticator.getUser().get().accessToken());
-		//
-		// AuthenticationUtil.isAccessTokenValid(authenticator.getUser().get().accessToken()).thenAccept(System.out::println);
-		//
-		// } catch (IllegalArgumentException e) {
-		// e.printStackTrace();
-		// } catch (AuthenticationException e) {
-		// e.printStackTrace();
-		// }
 	}
 	
 	@Override

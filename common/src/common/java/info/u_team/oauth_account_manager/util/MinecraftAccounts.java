@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
@@ -26,6 +27,7 @@ import net.minecraft.client.Minecraft;
 public class MinecraftAccounts {
 	
 	private static final Map<UUID, AuthenticationFile> ACCOUNTS = new HashMap<>();
+	private static final Map<UUID, GameProfile> LOADED_GAME_PROFILES = new HashMap<>();
 	private static final Map<UUID, LoadedAccount> LOADED_ACCOUNTS = new HashMap<>();
 	
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -44,6 +46,11 @@ public class MinecraftAccounts {
 		
 		for (final Entry<String, JsonElement> entry : json.entrySet()) {
 			ACCOUNTS.put(UUID.fromString(entry.getKey()), AuthenticationFile.readCompressed(Base64.getDecoder().decode(entry.getValue().getAsString())));
+		}
+		
+		for (final UUID uuid : ACCOUNTS.keySet()) {
+			final GameProfile profile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), false);
+			LOADED_GAME_PROFILES.put(uuid, profile);
 		}
 	}
 	
@@ -85,8 +92,9 @@ public class MinecraftAccounts {
 		Files.createDirectories(ACCOUNT_DIRECTORY);
 	}
 	
-	public static void addAccount(UUID uuid, AuthenticationFile file, LoadedAccount account) {
+	public static void addAccount(UUID uuid, AuthenticationFile file, GameProfile profile, LoadedAccount account) {
 		ACCOUNTS.put(uuid, file);
+		LOADED_GAME_PROFILES.put(uuid, profile);
 		LOADED_ACCOUNTS.put(uuid, account);
 		
 		enqueueSave();

@@ -3,10 +3,12 @@ package info.u_team.oauth_account_manager.screen;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
 import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.oauth_account_manager.util.MinecraftAccounts;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
@@ -21,6 +23,8 @@ import net.minecraft.network.chat.Component;
 
 public class AccountLoginScreen extends CommonWaitingScreen {
 	
+	private PlayerIconWidget playerIconWidget;
+	
 	public AccountLoginScreen(Screen lastScreen) {
 		super(lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
 	}
@@ -30,6 +34,15 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 		super.init();
 		setInformationMessage(getLoginStateComponent(LoginState.INITAL_FILE));
 		spinnerWidget.setTooltip(Tooltip.create(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING)));
+		
+		playerIconWidget = addRenderableWidget(new PlayerIconWidget(width / 2 - 32, height / 2 - 32, 64, null));
+	}
+	
+	@Override
+	protected void repositionElements() {
+		final GameProfile profile = playerIconWidget.getProfile();
+		super.repositionElements();
+		playerIconWidget.setProfile(profile);
 	}
 	
 	private Component getLoginStateComponent(LoginState state) {
@@ -87,9 +100,13 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 				return;
 			}
 			
-			// Add account
-			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), new LoadedAccount(user, xboxProfile));
+			// Retrieve game profile
+			final GameProfile profile = minecraft.getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), false);
 			
+			// Add account
+			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), profile, new LoadedAccount(user, xboxProfile));
+			
+			playerIconWidget.setProfile(profile);
 			setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
 		});
 	}
