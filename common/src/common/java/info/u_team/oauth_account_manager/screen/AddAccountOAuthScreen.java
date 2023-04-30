@@ -1,5 +1,7 @@
 package info.u_team.oauth_account_manager.screen;
 
+import java.util.Optional;
+
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
@@ -37,7 +39,7 @@ public class AddAccountOAuthScreen extends CommonWaitingScreen {
 			
 			minecraft.execute(() -> {
 				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen);
-				screen.login(result);
+				screen.login(Optional.empty(), result);
 				minecraft.setScreen(screen);
 			});
 		});

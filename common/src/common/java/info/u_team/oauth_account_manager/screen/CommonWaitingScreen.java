@@ -19,6 +19,7 @@ public class CommonWaitingScreen extends UScreen {
 	protected MultiLineTextWidget messageWidget;
 	protected LoadingSpinnerWidget spinnerWidget;
 	protected UButton doneButton;
+	protected UButton cancelButton;
 	
 	protected Thread waitingThread;
 	
@@ -40,7 +41,7 @@ public class CommonWaitingScreen extends UScreen {
 		doneButton.setPressable(() -> minecraft.setScreen(lastScreen));
 		doneButton.active = false;
 		
-		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
+		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(this::cancelWaitingThread);
 		
 		final LinearLayout layout = new LinearLayout(205, 20, LinearLayout.Orientation.HORIZONTAL);
@@ -66,14 +67,16 @@ public class CommonWaitingScreen extends UScreen {
 	@Override
 	protected void repositionElements() {
 		final Component messageWidgetMessage = messageWidget.getMessage();
-		final boolean doneButtonActive = doneButton.active;
 		final boolean spinnerWidgetActive = spinnerWidget.active;
 		final boolean spinnerWidgetVisible = spinnerWidget.visible;
+		final boolean doneButtonActive = doneButton.active;
+		final boolean cancelButtonActive = cancelButton.active;
 		super.repositionElements();
 		setInformationMessage(messageWidgetMessage);
-		doneButton.active = doneButtonActive;
 		spinnerWidget.active = spinnerWidgetActive;
 		spinnerWidget.visible = spinnerWidgetVisible;
+		doneButton.active = doneButtonActive;
+		cancelButton.active = cancelButtonActive;
 	}
 	
 	protected void setInformationMessage(Component component) {
@@ -84,6 +87,7 @@ public class CommonWaitingScreen extends UScreen {
 	protected void setFinalMessage(Component component) {
 		setInformationMessage(component);
 		doneButton.active = true;
+		cancelButton.active = false;
 		spinnerWidget.active = false;
 		spinnerWidget.visible = false;
 	}

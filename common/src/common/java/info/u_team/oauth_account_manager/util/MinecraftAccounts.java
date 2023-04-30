@@ -11,25 +11,29 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationFile;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 
 public class MinecraftAccounts {
 	
 	private static final Map<UUID, AuthenticationFile> ACCOUNTS = new HashMap<>();
+	private static final Map<UUID, LoadedAccount> LOADED_ACCOUNTS = new HashMap<>();
 	
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	
 	private static final Path ACCOUNT_DIRECTORY = Minecraft.getInstance().gameDirectory.toPath().resolve(".oauth-account-manager");
 	private static final Path ACCOUNT_FILE = ACCOUNT_DIRECTORY.resolve("accounts.mcoauth");
 	
-	public static void load() throws IOException {
+	private static void load() throws IOException {
 		ensureDirectoryExists();
 		
 		final JsonObject json;
@@ -43,7 +47,7 @@ public class MinecraftAccounts {
 		}
 	}
 	
-	public static void save() throws IOException {
+	private static void save() throws IOException {
 		ensureDirectoryExists();
 		
 		final JsonObject json = new JsonObject();
@@ -57,12 +61,40 @@ public class MinecraftAccounts {
 		}
 	}
 	
+	public static Future<?> enqueueLoad() {
+		return Util.ioPool().submit(() -> {
+			try {
+				load();
+			} catch (final IOException ex) {
+				OAuthAccountManagerReference.LOGGER.error("Cannot load minecraft accounts", ex);
+			}
+		});
+	}
+	
+	public static Future<?> enqueueSave() {
+		return Util.ioPool().submit(() -> {
+			try {
+				save();
+			} catch (final IOException ex) {
+				OAuthAccountManagerReference.LOGGER.error("Cannot save minecraft accounts", ex);
+			}
+		});
+	}
+	
 	private static void ensureDirectoryExists() throws IOException {
 		Files.createDirectories(ACCOUNT_DIRECTORY);
 	}
 	
-	public static Map<UUID, AuthenticationFile> getAccounts() {
-		return ACCOUNTS;
+	public static void addAccount(UUID uuid, AuthenticationFile file, LoadedAccount account) {
+		ACCOUNTS.put(uuid, file);
+		LOADED_ACCOUNTS.put(uuid, account);
+		
+		enqueueSave();
 	}
 	
+	public static void updateAuthenticationFile(UUID uuid, AuthenticationFile file) {
+		ACCOUNTS.put(uuid, file);
+		
+		enqueueSave();
+	}
 }

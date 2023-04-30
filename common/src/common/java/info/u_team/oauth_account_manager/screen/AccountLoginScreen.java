@@ -1,10 +1,19 @@
 package info.u_team.oauth_account_manager.screen;
 
+import java.util.Optional;
+import java.util.UUID;
+
+import com.mojang.util.UUIDTypeAdapter;
+
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.util.LoadedAccount;
+import info.u_team.oauth_account_manager.util.MinecraftAccounts;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.LoginState;
+import net.hycrafthd.minecraft_authenticator.login.User;
+import net.hycrafthd.minecraft_authenticator.login.XBoxProfile;
 import net.hycrafthd.simple_minecraft_authenticator.result.AuthenticationResult;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -36,8 +45,10 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 		});
 	}
 	
-	public void login(AuthenticationResult authenticationResult) {
+	public void login(Optional<UUID> accountUUID, AuthenticationResult authenticationResult) {
 		createWaitingThread(() -> {
+			
+			// Run authentication to minecraft services
 			final Authenticator authenticator = authenticationResult.buildAuthenticator(true);
 			try {
 				authenticator.run(state -> {
@@ -48,8 +59,36 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 					setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
 					OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services didn't complete sucessfully", ex);
 				}
+				
+				// In error state update authentication file if uuid is known already
+				accountUUID.ifPresent(uuid -> {
+					MinecraftAccounts.updateAuthenticationFile(uuid, authenticator.getResultFile());
+				});
+				
 				return;
 			}
+			
+			final User user = authenticator.getUser().orElseThrow(AssertionError::new);
+			final XBoxProfile xboxProfile = authenticator.getXBoxProfile().orElseThrow(AssertionError::new);
+			
+			// Parse uuid and validate
+			final UUID uuid;
+			try {
+				uuid = UUIDTypeAdapter.fromString(user.uuid());
+				
+				if (accountUUID.isPresent()) {
+					if (!accountUUID.get().equals(uuid)) {
+						throw new IllegalArgumentException("UUID returned from minecraft services did not match existing uuid for that account");
+					}
+				}
+			} catch (final IllegalArgumentException ex) {
+				setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
+				OAuthAccountManagerReference.LOGGER.error("Cannot add minecraft account", ex);
+				return;
+			}
+			
+			// Add account
+			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), new LoadedAccount(user, xboxProfile));
 			
 			setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
 		});
