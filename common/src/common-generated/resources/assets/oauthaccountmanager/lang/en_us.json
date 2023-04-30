@@ -8,7 +8,7 @@
 	"screen.oauthaccountmanager.account_login.login_state_info.xbox_profile": "Retrieve xbox profile",
 	"screen.oauthaccountmanager.account_login.login_state_info.xsts_token": "Authorize to minecraft services",
 	"screen.oauthaccountmanager.account_login.message.error": "Minecraft login didn't complete sucessfully because: %s",
-	"screen.oauthaccountmanager.account_login.message.success": "Authenticated sucessfully as %s to minecraft services. Account was added to the account list",
+	"screen.oauthaccountmanager.account_login.message.success": "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile was loaded",
 	"screen.oauthaccountmanager.account_login.spinner.tooltip.logging": "Retrieving minecraft access token and user profile",
 	"screen.oauthaccountmanager.account_login.title": "Logging into minecraft account",
 	"screen.oauthaccountmanager.accounts.add_button": "Add Account",

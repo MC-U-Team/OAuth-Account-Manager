@@ -53,7 +53,7 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
 		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");
-		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, "Authenticated sucessfully as %s to minecraft services. Account was added to the account list");
+		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile was loaded");
 		add(SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING, "Retrieving minecraft access token and user profile");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_INITAL_FILE, "Resolve inital authentication file");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_LOGIN_MICOSOFT, "Login to microsoft account");
