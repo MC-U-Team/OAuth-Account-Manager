@@ -102,6 +102,7 @@ public class AddAccountInformationScreen extends UScreen {
 					// Canceled from us, do not do anything
 				} else {
 					// setInformationMessage(Component.literal(ex.getMessage())); // TODO extra error state
+					doneButton.active = true;
 					OAuthAccountManagerReference.LOGGER.warn("Microsoft oauth was not completed sucessfully", ex);
 				}
 				return;
@@ -113,11 +114,14 @@ public class AddAccountInformationScreen extends UScreen {
 					setInformationMessage(Component.literal(state.name())); // TODO extra messages here
 				});
 			} catch (final AuthenticationException ex) {
+				doneButton.active = true;
 				// setInformationMessage(Component.literal(ex.getMessage())); // TODO extra error state
 				OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services did not complete sucessfully", ex);
 				return;
 			}
 			// TODO save;
+			
+			doneButton.active = true;
 		}, "OAuth-Account-Manager-Waiter");
 		waitingThread.setDaemon(true);
 		waitingThread.start();
