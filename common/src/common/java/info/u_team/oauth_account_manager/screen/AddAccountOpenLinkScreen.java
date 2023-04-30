@@ -3,9 +3,9 @@ package info.u_team.oauth_account_manager.screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.util.AuthenticationUtil;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
-import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.MultiLineLabel;
@@ -14,7 +14,6 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.LoggedPrintStream;
 
 public class AddAccountOpenLinkScreen extends UScreen {
 	
@@ -70,7 +69,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	}
 	
 	private void startAuthenticationProcess(boolean open) {
-		final AuthenticationMethod method = SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
+		final AuthenticationMethod method = AuthenticationUtil.createWebAuthenticationMethod();
 		method.registerLoginUrlCallback(url -> {
 			minecraft.execute(() -> {
 				if (open) {

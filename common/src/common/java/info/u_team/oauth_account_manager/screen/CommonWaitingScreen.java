@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 public class CommonWaitingScreen extends UScreen {
 	
 	protected final Screen lastScreen;
+	protected final Screen doneScreen;
 	
 	protected MultiLineTextWidget messageWidget;
 	protected LoadingSpinnerWidget spinnerWidget;
@@ -23,9 +24,10 @@ public class CommonWaitingScreen extends UScreen {
 	
 	protected Thread waitingThread;
 	
-	public CommonWaitingScreen(Screen lastScreen, Component title) {
+	public CommonWaitingScreen(Screen lastScreen, Screen doneScreen, Component title) {
 		super(title);
 		this.lastScreen = lastScreen;
+		this.doneScreen = doneScreen;
 	}
 	
 	@Override
@@ -38,7 +40,7 @@ public class CommonWaitingScreen extends UScreen {
 		FrameLayout.centerInRectangle(spinnerWidget, 0, 0, width, height);
 		
 		doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
-		doneButton.setPressable(() -> minecraft.setScreen(lastScreen));
+		doneButton.setPressable(() -> minecraft.setScreen(doneScreen));
 		doneButton.active = false;
 		
 		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));

@@ -2,6 +2,7 @@ package info.u_team.oauth_account_manager.screen;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.util.UUIDTypeAdapter;
@@ -25,8 +26,8 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 	
 	private PlayerIconWidget playerIconWidget;
 	
-	public AccountLoginScreen(Screen lastScreen) {
-		super(lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
+	public AccountLoginScreen(Screen lastScreen, Screen doneScreen) {
+		super(lastScreen, doneScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
 	}
 	
 	@Override
@@ -58,11 +59,10 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 		});
 	}
 	
-	public void login(Optional<UUID> accountUUID, AuthenticationResult authenticationResult) {
+	public void login(Optional<UUID> accountUUID, Supplier<AuthenticationResult> authenticationResult) {
 		createWaitingThread(() -> {
-			
 			// Run authentication to minecraft services
-			final Authenticator authenticator = authenticationResult.buildAuthenticator(true);
+			final Authenticator authenticator = authenticationResult.get().buildAuthenticator(true);
 			try {
 				authenticator.run(state -> {
 					setInformationMessage(getLoginStateComponent(state));

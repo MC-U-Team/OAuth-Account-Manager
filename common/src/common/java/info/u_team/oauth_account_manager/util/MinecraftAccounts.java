@@ -10,6 +10,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Future;
 
@@ -100,9 +101,33 @@ public class MinecraftAccounts {
 		enqueueSave();
 	}
 	
+	public static void removeAccount(UUID uuid) {
+		ACCOUNTS.remove(uuid);
+		LOADED_GAME_PROFILES.remove(uuid);
+		LOADED_ACCOUNTS.remove(uuid);
+		
+		enqueueSave();
+	}
+	
 	public static void updateAuthenticationFile(UUID uuid, AuthenticationFile file) {
 		ACCOUNTS.put(uuid, file);
 		
 		enqueueSave();
+	}
+	
+	public static Set<UUID> getAccountUUIDs() {
+		return ACCOUNTS.keySet();
+	}
+	
+	public static AuthenticationFile getAccount(UUID uuid) {
+		return ACCOUNTS.get(uuid);
+	}
+	
+	public static GameProfile getGameProfile(UUID uuid) {
+		return LOADED_GAME_PROFILES.get(uuid);
+	}
+	
+	public static boolean isLoaded(UUID uuid) {
+		return LOADED_ACCOUNTS.containsKey(uuid);
 	}
 }

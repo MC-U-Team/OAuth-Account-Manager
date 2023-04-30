@@ -9,6 +9,9 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
+import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
+import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
+import net.minecraft.server.LoggedPrintStream;
 
 public class AuthenticationUtil {
 	
@@ -29,5 +32,9 @@ public class AuthenticationUtil {
 				.build();
 		
 		return CLIENT.sendAsync(request, BodyHandlers.discarding()).thenApply(response -> response.statusCode() == 200);
+	}
+	
+	public static AuthenticationMethod createWebAuthenticationMethod() {
+		return SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
 	}
 }

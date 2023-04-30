@@ -14,7 +14,7 @@ import net.minecraft.network.chat.Component;
 public class AddAccountOAuthScreen extends CommonWaitingScreen {
 	
 	public AddAccountOAuthScreen(Screen lastScreen) {
-		super(lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_TITLE));
+		super(lastScreen, lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_TITLE));
 	}
 	
 	@Override
@@ -38,8 +38,8 @@ public class AddAccountOAuthScreen extends CommonWaitingScreen {
 			}
 			
 			minecraft.execute(() -> {
-				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen);
-				screen.login(Optional.empty(), result);
+				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen, lastScreen);
+				screen.login(Optional.empty(), () -> result);
 				minecraft.setScreen(screen);
 			});
 		});

@@ -3,6 +3,8 @@ package info.u_team.oauth_account_manager.screen;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.screen.list.AccountSelectionEntry;
+import info.u_team.oauth_account_manager.screen.list.AccountSelectionList;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.layouts.FrameLayout;
@@ -15,23 +17,41 @@ public class AccountsScreen extends UScreen {
 	
 	private final Screen lastScreen;
 	
+	private final AccountSelectionList list;
+	
+	private UButton useButton;
+	private UButton deleteButton;
+	
 	public AccountsScreen(Screen lastScreen) {
 		super(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE));
 		this.lastScreen = lastScreen;
+		list = new AccountSelectionList(this) {
+			
+			@Override
+			public void setSelected(AccountSelectionEntry selected) {
+				super.setSelected(selected);
+				updateButtonState(selected);
+			}
+		};
 	}
 	
 	@Override
 	protected void init() {
 		super.init();
 		
-		final UButton useButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON)));
+		addRenderableWidget(list);
+		list.updateSettings(width, height, 32, height - 64, 0, width);
+		
+		useButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON)));
+		useButton.setPressable(list::useSelectedEntry);
 		
 		final UButton addButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_ADD_BUTTON)));
 		addButton.setPressable(() -> {
 			minecraft.setScreen(new AddAccountOpenLinkScreen(this));
 		});
 		
-		final UButton deleteButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON)));
+		deleteButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON)));
+		deleteButton.setPressable(list::deleteSelectedEntry);
 		
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 74, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
@@ -44,6 +64,10 @@ public class AccountsScreen extends UScreen {
 		layout.arrangeElements();
 		
 		FrameLayout.centerInRectangle(layout, 0, height - 64, width, 64);
+		
+		updateButtonState(null);
+		
+		list.loadEntries();
 	}
 	
 	@Override
@@ -56,6 +80,16 @@ public class AccountsScreen extends UScreen {
 	@Override
 	public void onClose() {
 		minecraft.setScreen(lastScreen);
+	}
+	
+	public void updateButtonState(AccountSelectionEntry entry) {
+		if (entry == null) {
+			useButton.active = false;
+			deleteButton.active = false;
+		} else {
+			useButton.active = true;
+			deleteButton.active = true;
+		}
 	}
 	
 }
