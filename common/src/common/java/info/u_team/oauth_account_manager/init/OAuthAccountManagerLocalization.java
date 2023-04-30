@@ -12,9 +12,12 @@ public class OAuthAccountManagerLocalization {
 	
 	public static final String SCREEN_ADD_ACCOUNT_INFORMATION_TITLE = "screen.oauthaccountmanager.add_account_information.title";
 	public static final String SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_WAITING_FOR_LOGIN = "screen.oauthaccountmanager.add_account_information.message.waiting_for_login";
+	public static final String SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR = "screen.oauthaccountmanager.add_account_information.message.error";
 	public static final String SCREEN_ADD_ACCOUNT_INFORMATION_SPINNER_TOOLTIP_WAITING = "screen.oauthaccountmanager.add_account_information.spinner.tooltip.waiting";
 	
 	public static final String SCREEN_ACOUNT_LOGIN_TITLE = "screen.oauthaccountmanager.account_login.title";
+	public static final String SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR = "screen.oauthaccountmanager.account_login.message.error";
+	public static final String SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS = "screen.oauthaccountmanager.account_login.message.success";
 	public static final String SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING = "screen.oauthaccountmanager.account_login.spinner.tooltip.logging";
 	public static final String SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_INITAL_FILE = "screen.oauthaccountmanager.account_login.login_state_info.inital_file";
 	public static final String SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_LOGIN_MICOSOFT = "screen.oauthaccountmanager.account_login.login_state_info.login_microsoft";

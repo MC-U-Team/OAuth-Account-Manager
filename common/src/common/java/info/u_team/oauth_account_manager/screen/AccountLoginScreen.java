@@ -6,19 +6,21 @@ import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.LoginState;
 import net.hycrafthd.simple_minecraft_authenticator.result.AuthenticationResult;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class AccountLoginScreen extends CommonWaitingScreen {
 	
 	public AccountLoginScreen(Screen lastScreen) {
-		super(lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE), Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING));
+		super(lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
 	}
 	
 	@Override
 	protected void init() {
 		super.init();
 		setInformationMessage(getLoginStateComponent(LoginState.INITAL_FILE));
+		spinnerWidget.setTooltip(Tooltip.create(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING)));
 	}
 	
 	private Component getLoginStateComponent(LoginState state) {
@@ -36,19 +38,18 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 	
 	public void login(AuthenticationResult authenticationResult) {
 		createWaitingThread(() -> {
-			final Authenticator authenticator = authenticationResult.buildAuthenticator();
+			final Authenticator authenticator = authenticationResult.buildAuthenticator(true);
 			try {
 				authenticator.run(state -> {
-					setInformationMessage(Component.literal(state.name())); // TODO extra messages here
+					setInformationMessage(getLoginStateComponent(state));
 				});
 			} catch (final AuthenticationException ex) {
-				// setInformationMessage(Component.literal(ex.getMessage())); // TODO extra error state
-				OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services did not complete sucessfully", ex);
+				setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
+				OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services didn't complete sucessfully", ex);
 				return;
 			}
-			// TODO save;
 			
-			doneButton.active = true;
+			setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
 		});
 	}
 }

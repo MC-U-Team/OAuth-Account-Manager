@@ -4,6 +4,8 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_ACCESS_TOKEN;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_ENTITLEMENT;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_INITAL_FILE;
@@ -14,6 +16,7 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_XSTS_TOKEN;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_WAITING_FOR_LOGIN;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_SPINNER_TOOLTIP_WAITING;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_TITLE;
@@ -45,9 +48,12 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		
 		add(SCREEN_ADD_ACCOUNT_INFORMATION_TITLE, "Add new Minecraft Account");
 		add(SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_WAITING_FOR_LOGIN, "Waiting for login to be completed in web browser");
+		add(SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, "Microsoft authentication didn't complete sucessfully because: %s");
 		add(SCREEN_ADD_ACCOUNT_INFORMATION_SPINNER_TOOLTIP_WAITING, "Waiting for user action");
 		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
+		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");
+		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, "Authenticated sucessfully as %s to minecraft services. Account was added to the account list");
 		add(SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING, "Retrieving minecraft access token and user profile");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_INITAL_FILE, "Resolve inital authentication file");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_LOGIN_MICOSOFT, "Login to microsoft account");

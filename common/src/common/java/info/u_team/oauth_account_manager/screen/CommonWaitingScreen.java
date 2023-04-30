@@ -6,7 +6,6 @@ import info.u_team.oauth_account_manager.screen.widget.LoadingSpinnerWidget;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,17 +15,16 @@ import net.minecraft.network.chat.Component;
 public class CommonWaitingScreen extends UScreen {
 	
 	protected final Screen lastScreen;
-	private final Component spinnerTooltip;
 	
 	protected MultiLineTextWidget messageWidget;
+	protected LoadingSpinnerWidget spinnerWidget;
 	protected UButton doneButton;
 	
 	protected Thread waitingThread;
 	
-	public CommonWaitingScreen(Screen lastScreen, Component title, Component spinnerTooltip) {
+	public CommonWaitingScreen(Screen lastScreen, Component title) {
 		super(title);
 		this.lastScreen = lastScreen;
-		this.spinnerTooltip = spinnerTooltip;
 	}
 	
 	@Override
@@ -35,9 +33,8 @@ public class CommonWaitingScreen extends UScreen {
 		
 		messageWidget = addRenderableWidget(new MultiLineTextWidget(0, (height / 2) - 60, CommonComponents.EMPTY, font).setMaxWidth(width - 50).setCentered(true));
 		
-		final LoadingSpinnerWidget spinner = addRenderableWidget(new LoadingSpinnerWidget(0, 0, 60, 60));
-		spinner.setTooltip(Tooltip.create(spinnerTooltip));
-		FrameLayout.centerInRectangle(spinner, 0, 0, width, height);
+		spinnerWidget = addRenderableWidget(new LoadingSpinnerWidget(0, 0, 60, 60));
+		FrameLayout.centerInRectangle(spinnerWidget, 0, 0, width, height);
 		
 		doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
 		doneButton.setPressable(() -> minecraft.setScreen(lastScreen));
@@ -78,6 +75,13 @@ public class CommonWaitingScreen extends UScreen {
 	protected void setInformationMessage(Component component) {
 		messageWidget.setMessage(component);
 		messageWidget.setX((width / 2) - (messageWidget.getWidth() / 2));
+	}
+	
+	protected void setFinalMessage(Component component) {
+		setInformationMessage(component);
+		doneButton.active = true;
+		spinnerWidget.active = false;
+		spinnerWidget.visible = false;
 	}
 	
 	protected void cancelWaitingThread() {
