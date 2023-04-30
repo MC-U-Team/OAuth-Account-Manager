@@ -1,4 +1,12 @@
 {
+	"screen.oauthaccountmanager.account_login.login_state_info.access_token": "Retrieve access token for minecraft",
+	"screen.oauthaccountmanager.account_login.login_state_info.entitlement": "Check for entitlement of account",
+	"screen.oauthaccountmanager.account_login.login_state_info.inital_file": "Resolve inital authentication file",
+	"screen.oauthaccountmanager.account_login.login_state_info.login_microsoft": "Login to microsoft account",
+	"screen.oauthaccountmanager.account_login.login_state_info.profile": "Retrieve minecraft profile",
+	"screen.oauthaccountmanager.account_login.login_state_info.xbl_token": "Authenticate to xbox live",
+	"screen.oauthaccountmanager.account_login.login_state_info.xbox_profile": "Retrieve xbox profile",
+	"screen.oauthaccountmanager.account_login.login_state_info.xsts_token": "Authorize to minecraft services",
 	"screen.oauthaccountmanager.accounts.add_button": "Add Account",
 	"screen.oauthaccountmanager.accounts.delete_button": "Delete",
 	"screen.oauthaccountmanager.accounts.title": "Manage Minecraft Accounts",
