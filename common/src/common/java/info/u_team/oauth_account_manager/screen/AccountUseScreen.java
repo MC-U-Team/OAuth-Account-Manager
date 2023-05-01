@@ -45,7 +45,6 @@ public class AccountUseScreen extends UScreen {
 		
 		doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
 		doneButton.setPressable(this::useAccount);
-		doneButton.active = false;
 		
 		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));

@@ -63,7 +63,7 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_CHECK_ACCOUNT_VALID_BUTTON_RETRY, "Retry");
 		
 		add(SCREEN_USE_ACCOUNT_TITLE, "Use minecraft account");
-		add(SCREEN_USE_ACCOUNT_MESSAGE, "Use the selected minecraft account and change the access token and game profile to the selected account");
+		add(SCREEN_USE_ACCOUNT_MESSAGE, "Change the Minecraft account to the selected account for Singleplayer and Multiplayer use");
 		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
 		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");
