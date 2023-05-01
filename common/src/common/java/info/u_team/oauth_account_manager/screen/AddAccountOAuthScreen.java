@@ -38,8 +38,8 @@ public class AddAccountOAuthScreen extends CommonWaitingScreen {
 			}
 			
 			minecraft.execute(() -> {
-				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen, lastScreen);
-				screen.login(Optional.empty(), () -> result);
+				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen);
+				screen.login(Optional.empty(), () -> result, null);
 				minecraft.setScreen(screen);
 			});
 		});

@@ -22,10 +22,16 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_BUTTON_RETRY;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_CHECKING;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_INVALID;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_INVALID;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_VALID;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_TITLE;
 
 import info.u_team.u_team_core.data.CommonLanguagesProvider;
 import info.u_team.u_team_core.data.GenerationData;
@@ -51,9 +57,17 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, "Microsoft authentication didn't complete sucessfully because: %s");
 		add(SCREEN_ADD_ACCOUNT_INFORMATION_SPINNER_TOOLTIP_WAITING, "Waiting for user action");
 		
+		add(SCREEN_CHECK_ACCOUNT_VALID_TITLE, "Checking minecraft access token");
+		add(SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_CHECKING, "Checking if access token for minecraft account is valid");
+		add(SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_INVALID, "Access token for minecraft is currently invalid. You can retry to get a valid access token or cancel the action");
+		add(SCREEN_CHECK_ACCOUNT_VALID_BUTTON_RETRY, "Retry");
+		
+		add(SCREEN_USE_ACCOUNT_TITLE, "Use minecraft account");
+		add(SCREEN_USE_ACCOUNT_MESSAGE, "Use the selected minecraft account and change the access token and game profile to the selected account");
+		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
 		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");
-		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile was loaded");
+		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile were loaded");
 		add(SCREEN_ACOUNT_LOGIN_SPINNER_TOOLTIP_LOGGING, "Retrieving minecraft access token and user profile");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_INITAL_FILE, "Resolve inital authentication file");
 		add(SCREEN_ACOUNT_LOGIN_LOGIN_STATE_INFO_LOGIN_MICOSOFT, "Login to microsoft account");

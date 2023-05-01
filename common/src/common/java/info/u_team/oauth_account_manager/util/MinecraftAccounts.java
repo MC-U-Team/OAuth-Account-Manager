@@ -123,6 +123,10 @@ public class MinecraftAccounts {
 		return ACCOUNTS.get(uuid);
 	}
 	
+	public static LoadedAccount getLoadedAccount(UUID uuid) {
+		return LOADED_ACCOUNTS.get(uuid);
+	}
+	
 	public static GameProfile getGameProfile(UUID uuid) {
 		return LOADED_GAME_PROFILES.get(uuid);
 	}

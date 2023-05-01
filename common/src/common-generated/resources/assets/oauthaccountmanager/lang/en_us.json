@@ -8,7 +8,7 @@
 	"screen.oauthaccountmanager.account_login.login_state_info.xbox_profile": "Retrieve xbox profile",
 	"screen.oauthaccountmanager.account_login.login_state_info.xsts_token": "Authorize to minecraft services",
 	"screen.oauthaccountmanager.account_login.message.error": "Minecraft login didn't complete sucessfully because: %s",
-	"screen.oauthaccountmanager.account_login.message.success": "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile was loaded",
+	"screen.oauthaccountmanager.account_login.message.success": "Authenticated sucessfully as %s to minecraft services. Account, profile and Xbox profile were loaded",
 	"screen.oauthaccountmanager.account_login.spinner.tooltip.logging": "Retrieving minecraft access token and user profile",
 	"screen.oauthaccountmanager.account_login.title": "Logging into minecraft account",
 	"screen.oauthaccountmanager.accounts.add_button": "Add Account",
@@ -21,8 +21,14 @@
 	"screen.oauthaccountmanager.add_account_information.title": "Add new Minecraft Account",
 	"screen.oauthaccountmanager.add_account_open_link.message": "Open the microsoft login page with the button '%s' or '%s'. Then log into the account you want to add",
 	"screen.oauthaccountmanager.add_account_open_link.title": "Add new Minecraft Account",
+	"screen.oauthaccountmanager.check_account_valid.button.retry": "Retry",
+	"screen.oauthaccountmanager.check_account_valid.message.checking": "Checking if access token for minecraft account is valid",
+	"screen.oauthaccountmanager.check_account_valid.message.invalid": "Access token for minecraft is currently invalid. You can retry to get a valid access token or cancel the action",
+	"screen.oauthaccountmanager.check_account_valid.title": "Checking minecraft access token",
 	"screen.oauthaccountmanager.multiplayer_addition.account_button": "Accounts",
 	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.checking": "Checking current account session",
 	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.invalid": "Session token is invalid",
-	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.valid": "You are currently logged in as %s"
+	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.valid": "You are currently logged in as %s",
+	"screen.oauthaccountmanager.use_account.message": "Use the selected minecraft account and change the access token and game profile to the selected account",
+	"screen.oauthaccountmanager.use_account.title": "Use minecraft account"
 }

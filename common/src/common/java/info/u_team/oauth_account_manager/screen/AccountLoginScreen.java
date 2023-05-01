@@ -2,6 +2,7 @@ package info.u_team.oauth_account_manager.screen;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.mojang.authlib.GameProfile;
@@ -26,8 +27,8 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 	
 	private PlayerIconWidget playerIconWidget;
 	
-	public AccountLoginScreen(Screen lastScreen, Screen doneScreen) {
-		super(lastScreen, doneScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
+	public AccountLoginScreen(Screen lastScreen) {
+		super(lastScreen, lastScreen, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_TITLE));
 	}
 	
 	@Override
@@ -59,7 +60,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 		});
 	}
 	
-	public void login(Optional<UUID> accountUUID, Supplier<AuthenticationResult> authenticationResult) {
+	public void login(Optional<UUID> accountUUID, Supplier<AuthenticationResult> authenticationResult, Consumer<AccountLoginScreen> callback) {
 		createWaitingThread(() -> {
 			// Run authentication to minecraft services
 			final Authenticator authenticator = authenticationResult.get().buildAuthenticator(true);
@@ -108,6 +109,10 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			
 			playerIconWidget.setProfile(profile);
 			setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
+			
+			if (callback != null) {
+				callback.accept(this);
+			}
 		});
 	}
 }

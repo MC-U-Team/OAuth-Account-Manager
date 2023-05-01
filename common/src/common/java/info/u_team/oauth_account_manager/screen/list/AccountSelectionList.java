@@ -3,8 +3,11 @@ package info.u_team.oauth_account_manager.screen.list;
 import java.util.Optional;
 import java.util.UUID;
 
+import info.u_team.oauth_account_manager.screen.AccountCheckValidScreen;
 import info.u_team.oauth_account_manager.screen.AccountLoginScreen;
+import info.u_team.oauth_account_manager.screen.AccountUseScreen;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.oauth_account_manager.util.MinecraftAccounts;
 import info.u_team.u_team_core.gui.elements.ScrollableList;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,6 +21,16 @@ public class AccountSelectionList extends ScrollableList<AccountSelectionEntry> 
 		this.ourScreen = ourScreen;
 		setRenderTopAndBottom(false);
 		setRenderTransparentBorder(true);
+	}
+	
+	@Override
+	public int getRowWidth() {
+		return 305;
+	}
+	
+	@Override
+	protected int getScrollbarPosition() {
+		return width / 2 + 154;
 	}
 	
 	public void loadEntries() {
@@ -40,12 +53,10 @@ public class AccountSelectionList extends ScrollableList<AccountSelectionEntry> 
 		
 		final UUID uuid = entry.getUuid();
 		
-		if (MinecraftAccounts.isLoaded(uuid)) {
-			// minecraft.setScreen(null); // TODO
+		if (!MinecraftAccounts.isLoaded(uuid)) {
+			showLoginScreen(uuid);
 		} else {
-			final AccountLoginScreen screen = new AccountLoginScreen(ourScreen, null);
-			screen.login(Optional.of(uuid), () -> AuthenticationUtil.createWebAuthenticationMethod().existingAuthentication(MinecraftAccounts.getAccount(uuid)));
-			minecraft.setScreen(screen);
+			showUseScreen(uuid, () -> showLoginScreen(uuid));
 		}
 	}
 	
@@ -57,13 +68,26 @@ public class AccountSelectionList extends ScrollableList<AccountSelectionEntry> 
 		MinecraftAccounts.removeAccount(entry.getUuid());
 	}
 	
-	@Override
-	public int getRowWidth() {
-		return 305;
+	private void showLoginScreen(UUID uuid) {
+		final AccountLoginScreen loginScreen = new AccountLoginScreen(ourScreen);
+		loginScreen.login(Optional.of(uuid), () -> AuthenticationUtil.createWebAuthenticationMethod().existingAuthentication(MinecraftAccounts.getAccount(uuid)), screen -> minecraft.execute(() -> {
+			showUseScreen(uuid, () -> showLoginScreen(uuid));
+		}));
+		minecraft.setScreen(loginScreen);
 	}
 	
-	@Override
-	protected int getScrollbarPosition() {
-		return width / 2 + 154;
+	private void showUseScreen(UUID uuid, Runnable retry) {
+		final LoadedAccount loadedAccount = MinecraftAccounts.getLoadedAccount(uuid);
+		if (loadedAccount == null) {
+			retry.run();
+			return;
+		}
+		final AccountCheckValidScreen validScreen = new AccountCheckValidScreen(ourScreen, retry, () -> {
+			final AccountUseScreen useScreen = new AccountUseScreen(ourScreen, MinecraftAccounts.getGameProfile(uuid), loadedAccount);
+			minecraft.setScreen(useScreen);
+		});
+		validScreen.checkAccount(loadedAccount.user().accessToken());
+		minecraft.setScreen(validScreen);
 	}
+	
 }
