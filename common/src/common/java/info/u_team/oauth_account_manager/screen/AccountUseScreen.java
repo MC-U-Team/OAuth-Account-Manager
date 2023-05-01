@@ -1,6 +1,10 @@
 package info.u_team.oauth_account_manager.screen;
 
+import java.util.Optional;
+
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.exceptions.AuthenticationException;
+import com.mojang.authlib.minecraft.UserApiService;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
@@ -8,10 +12,16 @@ import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
 import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
+import net.minecraft.client.User;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.social.PlayerSocialManager;
+import net.minecraft.client.multiplayer.ProfileKeyPairManager;
+import net.minecraft.client.multiplayer.chat.report.ReportEnvironment;
+import net.minecraft.client.multiplayer.chat.report.ReportingContext;
+import net.minecraft.client.telemetry.ClientTelemetryManager;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -44,7 +54,13 @@ public class AccountUseScreen extends UScreen {
 		playerIconWidget = addRenderableWidget(new PlayerIconWidget(width / 2 - 32, height / 2 - 32, 64, gameProfile));
 		
 		doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
-		doneButton.setPressable(this::useAccount);
+		doneButton.setPressable(() -> {
+			try {
+				useAccount();
+			} catch (AuthenticationException e) {
+				e.printStackTrace();
+			}
+		});
 		
 		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
@@ -83,9 +99,26 @@ public class AccountUseScreen extends UScreen {
 		messageWidget.setX((width / 2) - (messageWidget.getWidth() / 2));
 	}
 	
-	private void useAccount() {
-		// TODO add usage
+	private void useAccount() throws AuthenticationException {
+		// TODO make async
 		System.out.println(gameProfile);
 		System.out.println(loadedAccount);
+		
+		final var msUser = loadedAccount.user();
+		
+		final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
+		final User user = new User(msUser.name(), msUser.uuid(), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
+		final PlayerSocialManager playerSocialManager = new PlayerSocialManager(minecraft, userApiService);
+		final ClientTelemetryManager clientTelemetryManager = new ClientTelemetryManager(minecraft, userApiService, user);
+		final ProfileKeyPairManager profileKeyPairManager = ProfileKeyPairManager.create(userApiService, user, minecraft.gameDirectory.toPath());
+		final ReportingContext reportingContext = ReportingContext.create(ReportEnvironment.local(), userApiService);
+		
+		minecraft.userApiService = userApiService;
+		minecraft.user = user;
+		minecraft.playerSocialManager = playerSocialManager;
+		minecraft.telemetryManager = clientTelemetryManager;
+		minecraft.profileKeyPairManager = profileKeyPairManager;
+		minecraft.reportingContext = reportingContext;
+		minecraft.profileProperties = gameProfile.getProperties();
 	}
 }
