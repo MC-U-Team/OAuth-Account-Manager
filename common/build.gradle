@@ -37,6 +37,7 @@ java {
 
 minecraft {
 	version(config.minecraft.version)
+	accessWideners(project(":fabric").file("src/main/resources/oauthaccountmanager.accesswidener"))
 }
 
 tasks.withType(Jar) { task ->
