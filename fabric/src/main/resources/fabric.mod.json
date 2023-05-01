@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "oauthaccountmanager",
+	"version": "${version}",
+	"name": "OAuth Account Manager",
+	"description": "Join our discord server here: https://discord.hycrafthd.net\n\nManage and switch multiple minecraft accounts in game",
+	"authors": [
+		"HyCraftHD"
+	],
+	"contact": {
+		"homepage": "https://u-team.info/mods/oauthaccountmanager",
+		"sources": "https://github.com/MC-U-Team/OAuth-Account-Manager"
+	},
+	"license": "Apache-2.0 License",
+	"icon": "logo.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"info.u_team.oauth_account_manager.OAuthAccountManagerMod"
+		]
+	},
+	"accessWidener": "oauthaccountmanager.accesswidener",
+	"mixins": [],
+	"depends": {
+		"uteamcore": ">=5.0.2.250",
+		"fabricloader": ">=0.14.19",
+		"fabric": ">=0.78.0+1.19.4",
+		"minecraft": "1.19.4",
+		"java": ">=17"
+	},
+	"custom": {
+		"uteamcore:update_url": "https://api.u-team.info/update/oauthaccountmanager_fabric.json"
+	}
+}
