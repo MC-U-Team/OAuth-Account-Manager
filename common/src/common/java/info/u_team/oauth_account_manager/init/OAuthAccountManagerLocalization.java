@@ -22,6 +22,8 @@ public class OAuthAccountManagerLocalization {
 	
 	public static final String SCREEN_USE_ACCOUNT_TITLE = "screen.oauthaccountmanager.use_account.title";
 	public static final String SCREEN_USE_ACCOUNT_MESSAGE = "screen.oauthaccountmanager.use_account.message";
+	public static final String SCREEN_USE_ACCOUNT_MESSAGE_WAITING = "screen.oauthaccountmanager.use_account.message.waiting";
+	public static final String SCREEN_USE_ACCOUNT_MESSAGE_ERROR = "screen.oauthaccountmanager.use_account.message.error";
 	
 	public static final String SCREEN_ACOUNT_LOGIN_TITLE = "screen.oauthaccountmanager.account_login.title";
 	public static final String SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR = "screen.oauthaccountmanager.account_login.message.error";

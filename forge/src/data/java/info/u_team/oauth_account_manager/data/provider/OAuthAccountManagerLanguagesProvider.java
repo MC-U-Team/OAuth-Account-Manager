@@ -1,6 +1,6 @@
 package info.u_team.oauth_account_manager.data.provider;
 
-import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_ADD_BUTTON;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.*;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON;
@@ -64,6 +64,8 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		
 		add(SCREEN_USE_ACCOUNT_TITLE, "Use minecraft account");
 		add(SCREEN_USE_ACCOUNT_MESSAGE, "Change the Minecraft account to the selected account for Singleplayer and Multiplayer use");
+		add(SCREEN_USE_ACCOUNT_MESSAGE_WAITING, "Waiting for account to be switched");
+		add(SCREEN_USE_ACCOUNT_MESSAGE_ERROR, "An error occured while switching account: %s");
 		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
 		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");

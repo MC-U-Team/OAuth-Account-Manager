@@ -30,5 +30,7 @@
 	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.invalid": "Session token is invalid",
 	"screen.oauthaccountmanager.multiplayer_addition.account_button.tooltip.valid": "You are currently logged in as %s",
 	"screen.oauthaccountmanager.use_account.message": "Change the Minecraft account to the selected account for Singleplayer and Multiplayer use",
+	"screen.oauthaccountmanager.use_account.message.error": "An error occured while switching account: %s",
+	"screen.oauthaccountmanager.use_account.message.waiting": "Waiting for account to be switched",
 	"screen.oauthaccountmanager.use_account.title": "Use minecraft account"
 }

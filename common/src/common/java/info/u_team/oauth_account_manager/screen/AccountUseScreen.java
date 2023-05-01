@@ -1,6 +1,7 @@
 package info.u_team.oauth_account_manager.screen;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
@@ -100,25 +101,32 @@ public class AccountUseScreen extends UScreen {
 	}
 	
 	private void useAccount() throws AuthenticationException {
-		// TODO make async
-		System.out.println(gameProfile);
-		System.out.println(loadedAccount);
-		
-		final var msUser = loadedAccount.user();
-		
-		final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
-		final User user = new User(msUser.name(), msUser.uuid(), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
-		final PlayerSocialManager playerSocialManager = new PlayerSocialManager(minecraft, userApiService);
-		final ClientTelemetryManager clientTelemetryManager = new ClientTelemetryManager(minecraft, userApiService, user);
-		final ProfileKeyPairManager profileKeyPairManager = ProfileKeyPairManager.create(userApiService, user, minecraft.gameDirectory.toPath());
-		final ReportingContext reportingContext = ReportingContext.create(ReportEnvironment.local(), userApiService);
-		
-		minecraft.userApiService = userApiService;
-		minecraft.user = user;
-		minecraft.playerSocialManager = playerSocialManager;
-		minecraft.telemetryManager = clientTelemetryManager;
-		minecraft.profileKeyPairManager = profileKeyPairManager;
-		minecraft.reportingContext = reportingContext;
-		minecraft.profileProperties = gameProfile.getProperties();
+		setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING));
+		CompletableFuture.runAsync(() -> {
+			try {
+				final var msUser = loadedAccount.user();
+				
+				final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
+				final User user = new User(msUser.name(), msUser.uuid(), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
+				final PlayerSocialManager playerSocialManager = new PlayerSocialManager(minecraft, userApiService);
+				final ClientTelemetryManager clientTelemetryManager = new ClientTelemetryManager(minecraft, userApiService, user);
+				final ProfileKeyPairManager profileKeyPairManager = ProfileKeyPairManager.create(userApiService, user, minecraft.gameDirectory.toPath());
+				final ReportingContext reportingContext = ReportingContext.create(ReportEnvironment.local(), userApiService);
+				
+				minecraft.execute(() -> {
+					minecraft.userApiService = userApiService;
+					minecraft.user = user;
+					minecraft.playerSocialManager = playerSocialManager;
+					minecraft.telemetryManager = clientTelemetryManager;
+					minecraft.profileKeyPairManager = profileKeyPairManager;
+					minecraft.reportingContext = reportingContext;
+					minecraft.profileProperties = gameProfile.getProperties();
+					
+					minecraft.setScreen(lastScreen);
+				});
+			} catch (final AuthenticationException ex) {
+				setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR));
+			}
+		});
 	}
 }
