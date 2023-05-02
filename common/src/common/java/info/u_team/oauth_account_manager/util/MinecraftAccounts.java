@@ -39,6 +39,10 @@ public class MinecraftAccounts {
 	private static void load() throws IOException {
 		ensureDirectoryExists();
 		
+		if (Files.notExists(ACCOUNT_FILE)) {
+			save();
+		}
+		
 		final JsonObject json;
 		
 		try (final BufferedReader reader = Files.newBufferedReader(ACCOUNT_FILE, StandardCharsets.UTF_8)) {
