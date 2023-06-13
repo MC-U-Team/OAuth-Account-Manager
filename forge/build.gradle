@@ -147,7 +147,7 @@ sourceSets {
 dependencies {
 	minecraft gradlefiles.forgeDependency()
 	
-	implementation fg.deobf("info.u-team:u_team_core-forge-1.19.4:5.0.2.250")
+	implementation fg.deobf("info.u-team:u_team_core-forge-1.19.4:5.0.2.261")
 	
 	shade ("net.hycrafthd:simple_minecraft_authenticator:2.2.0") {
 		exclude group: "com.google.code.gson", module: "gson"
