@@ -129,7 +129,7 @@ dependencies {
 	
 	implementation fg.deobf("info.u-team:u_team_core-forge-1.20.1:5.1.2.264")
 	
-	shade ("net.hycrafthd:simple_minecraft_authenticator:2.2.0") {
+	shade ("net.hycrafthd:simple_minecraft_authenticator:2.2.1") {
 		exclude group: "com.google.code.gson", module: "gson"
 	}
 }
