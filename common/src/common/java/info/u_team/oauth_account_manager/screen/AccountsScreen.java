@@ -39,7 +39,7 @@ public class AccountsScreen extends UScreen {
 	protected void init() {
 		super.init();
 		
-		addRenderableWidget(MultiplayerScreenAdditions.addButton(this));
+		addRenderableWidget(MultiplayerScreenAdditions.addButton(width, lastScreen));
 		
 		addRenderableWidget(list);
 		list.updateSettings(width, height, 32, height - 64, 0, width);

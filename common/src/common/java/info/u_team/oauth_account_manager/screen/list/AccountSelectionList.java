@@ -33,6 +33,12 @@ public class AccountSelectionList extends ScrollableList<AbstractAccountSelectio
 		final UUID selectedUUID = getSelected() != null ? getSelected().getUuid() : null;
 		clearEntries();
 		
+		final LaunchedAccountSelectionEntry launchedEntry = new LaunchedAccountSelectionEntry(ourScreen, this);
+		addEntry(launchedEntry);
+		if (launchedEntry.getUuid().equals(selectedUUID)) {
+			setSelected(launchedEntry);
+		}
+		
 		MinecraftAccounts.getAccountUUIDs().stream().map(uuid -> new AccountSelectionEntry(ourScreen, this, uuid, MinecraftAccounts.getGameProfile(uuid))).sorted((a, b) -> {
 			return StringUtils.compare(a.getProfile().getName(), b.getProfile().getName());
 		}).forEach(entry -> {
@@ -43,12 +49,6 @@ public class AccountSelectionList extends ScrollableList<AbstractAccountSelectio
 		});
 		
 		setScrollAmount(getScrollAmount());
-		
-		final LaunchedAccountSelectionEntry entry = new LaunchedAccountSelectionEntry(ourScreen, this);
-		addEntryToTop(entry);
-		if (entry.getUuid().equals(selectedUUID)) {
-			setSelected(entry);
-		}
 	}
 	
 	public void useSelectedEntry() {

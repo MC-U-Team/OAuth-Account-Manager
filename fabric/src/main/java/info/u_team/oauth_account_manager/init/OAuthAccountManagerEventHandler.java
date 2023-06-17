@@ -13,7 +13,7 @@ public class OAuthAccountManagerEventHandler {
 		if (!(screen instanceof JoinMultiplayerScreen multiplayerScreen)) {
 			return;
 		}
-		Screens.getButtons(screen).add(MultiplayerScreenAdditions.addButton(multiplayerScreen));
+		Screens.getButtons(screen).add(MultiplayerScreenAdditions.addButton(multiplayerScreen.width, multiplayerScreen));
 	}
 	
 	public static void register() {

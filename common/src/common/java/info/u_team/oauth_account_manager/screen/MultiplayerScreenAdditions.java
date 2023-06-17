@@ -17,11 +17,11 @@ public class MultiplayerScreenAdditions {
 	private static final RGBA VALID_COLOR = RGBA.fromARGB(0xFF2CFC03);
 	private static final RGBA INVALID_COLOR = RGBA.fromARGB(0xFFFC0303);
 	
-	public static UButton addButton(Screen screen) {
+	public static UButton addButton(int width, Screen lastScreen) {
 		final UButton button = new UButton(0, 0, 74, 16, Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON));
-		FrameLayout.centerInRectangle(button, 117, 0, screen.width, 45);
+		FrameLayout.centerInRectangle(button, 117, 0, width, 45);
 		button.setPressable(() -> {
-			Minecraft.getInstance().setScreen(new AccountsScreen(screen));
+			Minecraft.getInstance().setScreen(new AccountsScreen(lastScreen));
 		});
 		button.setTooltip(Tooltip.create(Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING)));
 		

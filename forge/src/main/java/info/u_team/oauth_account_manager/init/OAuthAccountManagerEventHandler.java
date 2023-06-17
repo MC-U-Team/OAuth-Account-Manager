@@ -8,10 +8,10 @@ import net.minecraftforge.eventbus.api.IEventBus;
 public class OAuthAccountManagerEventHandler {
 	
 	private static void onScreenInitPost(ScreenEvent.Init.Post event) {
-		if (!(event.getScreen() instanceof JoinMultiplayerScreen screen)) {
+		if (!(event.getScreen() instanceof JoinMultiplayerScreen multiplayerScreen)) {
 			return;
 		}
-		event.addListener(MultiplayerScreenAdditions.addButton(screen));
+		event.addListener(MultiplayerScreenAdditions.addButton(multiplayerScreen.width, multiplayerScreen));
 	}
 	
 	public static void registerForge(IEventBus bus) {
