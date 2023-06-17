@@ -59,7 +59,7 @@ public class MinecraftAccounts {
 			LOADED_GAME_PROFILES.put(uuid, profile);
 		}
 		
-		OAuthAccountManagerReference.LOGGER.info("Loaded {} account" + (ACCOUNTS.size() != 1 ? "s" : "") + " ({})", ACCOUNTS.size(), LOADED_GAME_PROFILES.values().stream().map(GameProfile::getName).collect(Collectors.joining()));
+		OAuthAccountManagerReference.LOGGER.info("Loaded {} account" + (ACCOUNTS.size() != 1 ? "s" : "") + " ({})", ACCOUNTS.size(), LOADED_GAME_PROFILES.values().stream().map(GameProfile::getName).collect(Collectors.joining(", ")));
 	}
 	
 	private static void save() throws IOException {

@@ -1,14 +1,9 @@
 package info.u_team.oauth_account_manager.screen;
 
-import java.util.concurrent.CompletableFuture;
-
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.exceptions.AuthenticationException;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
-import info.u_team.oauth_account_manager.util.AuthenticationUtil;
-import info.u_team.oauth_account_manager.util.AuthenticationUtil.MinecraftAccountData;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.GuiGraphics;
@@ -19,21 +14,21 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
-public class AccountUseScreen extends UScreen {
+public class AccountDeleteScreen extends UScreen {
 	
 	private final Screen lastScreen;
 	
 	private final GameProfile gameProfile;
-	private final AccountDataCreator accountDataSupplier;
+	private final Runnable deleteCallback;
 	
 	private MultiLineTextWidget messageWidget;
 	private PlayerIconWidget playerIconWidget;
 	
-	public AccountUseScreen(Screen lastScreen, GameProfile gameProfile, AccountDataCreator accountDataSupplier) {
-		super(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_TITLE));
+	public AccountDeleteScreen(Screen lastScreen, GameProfile gameProfile, Runnable deleteCallback) {
+		super(Component.translatable(OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_TITLE));
 		this.lastScreen = lastScreen;
 		this.gameProfile = gameProfile;
-		this.accountDataSupplier = accountDataSupplier;
+		this.deleteCallback = deleteCallback;
 	}
 	
 	@Override
@@ -41,18 +36,21 @@ public class AccountUseScreen extends UScreen {
 		super.init();
 		
 		messageWidget = addRenderableWidget(new MultiLineTextWidget(0, (height / 2) - 60, CommonComponents.EMPTY, font).setMaxWidth(width - 50).setCentered(true));
-		setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE));
+		setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_MESSAGE, gameProfile.getName()));
 		
 		playerIconWidget = addRenderableWidget(new PlayerIconWidget(width / 2 - 32, height / 2 - 32, 64, gameProfile));
 		
-		final UButton doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
-		doneButton.setPressable(this::useAccount);
+		final UButton deleteButton = addRenderableWidget(new UButton(0, 0, 100, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_DELETE_BUTTON)));
+		deleteButton.setPressable(() -> {
+			deleteCallback.run();
+			minecraft.setScreen(lastScreen);
+		});
 		
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
 		
 		final LinearLayout layout = new LinearLayout(205, 20, LinearLayout.Orientation.HORIZONTAL);
-		layout.addChild(doneButton);
+		layout.addChild(deleteButton);
 		layout.addChild(cancelButton);
 		layout.arrangeElements();
 		
@@ -83,26 +81,5 @@ public class AccountUseScreen extends UScreen {
 	protected void setInformationMessage(Component component) {
 		messageWidget.setMessage(component);
 		messageWidget.setX((width / 2) - (messageWidget.getWidth() / 2));
-	}
-	
-	private void useAccount() {
-		minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING)));
-		CompletableFuture.runAsync(() -> {
-			try {
-				final MinecraftAccountData data = accountDataSupplier.create();
-				minecraft.execute(() -> {
-					AuthenticationUtil.setMinecraftAccountData(data);
-					minecraft.setScreen(lastScreen);
-				});
-			} catch (final AuthenticationException ex) {
-				minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR)));
-			}
-		});
-	}
-	
-	@FunctionalInterface
-	public static interface AccountDataCreator {
-		
-		MinecraftAccountData create() throws AuthenticationException;
 	}
 }

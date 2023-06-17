@@ -28,6 +28,9 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_CHECKING;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_INVALID;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_TITLE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_DELETE_BUTTON;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_MESSAGE;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_DELETE_ACCOUNT_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_CHECKING;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_INVALID;
@@ -72,6 +75,10 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_USE_ACCOUNT_MESSAGE, "Change the Minecraft account to the selected account for Singleplayer and Multiplayer use");
 		add(SCREEN_USE_ACCOUNT_MESSAGE_WAITING, "Waiting for account to be switched");
 		add(SCREEN_USE_ACCOUNT_MESSAGE_ERROR, "An error occured while switching account: %s");
+		
+		add(SCREEN_DELETE_ACCOUNT_TITLE, "Delete minecraft account");
+		add(SCREEN_DELETE_ACCOUNT_MESSAGE, "Delete %s minecraft account from the selection list. Cannot be undone");
+		add(SCREEN_DELETE_ACCOUNT_DELETE_BUTTON, "Delete");
 		
 		add(SCREEN_ACOUNT_LOGIN_TITLE, "Logging into minecraft account");
 		add(SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, "Minecraft login didn't complete sucessfully because: %s");

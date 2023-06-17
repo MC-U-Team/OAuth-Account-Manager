@@ -56,7 +56,11 @@ public class AccountsScreen extends UScreen {
 		});
 		
 		deleteButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON)));
-		deleteButton.setPressable(list::deleteSelectedEntry);
+		deleteButton.setPressable(() -> {
+			if (list.getSelected() instanceof AccountSelectionEntry entry) {
+				minecraft.setScreen(new AccountDeleteScreen(this, entry.getProfile(), list::deleteSelectedEntry));
+			}
+		});
 		
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 74, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
