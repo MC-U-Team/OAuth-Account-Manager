@@ -25,8 +25,8 @@ public class LaunchedAccountSelectionEntry extends AbstractAccountSelectionEntry
 	@Override
 	public void render(GuiGraphics guiGraphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick) {
 		super.render(guiGraphics, index, top, left, width, height, mouseX, mouseY, hovered, partialTick);
-		if (hovered) {
-			ourScreen.setTooltipForNextRenderPass(minecraft.font.split(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP), 175));
+		if (hovered && currentlyUsed) {
+			ourScreen.setTooltipForNextRenderPass(minecraft.font.split(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_USED_TOOLTIP)), 175));
 		}
 	}
 	

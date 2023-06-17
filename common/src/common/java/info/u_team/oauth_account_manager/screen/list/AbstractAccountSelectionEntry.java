@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
 
+import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.u_team_core.gui.elements.ScrollableListEntry;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,6 +25,8 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 	private final UUID uuid;
 	private final GameProfile profile;
 	
+	protected final boolean currentlyUsed;
+	
 	private long lastClickTime;
 	
 	public AbstractAccountSelectionEntry(Screen ourScreen, AccountSelectionList selectionList, UUID uuid, GameProfile profile) {
@@ -31,6 +34,7 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 		this.selectionList = selectionList;
 		this.uuid = uuid;
 		this.profile = profile;
+		this.currentlyUsed = uuid.equals(minecraft.getUser().getProfileId());
 	}
 	
 	@Override
@@ -41,6 +45,10 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 		
 		guiGraphics.drawString(minecraft.font, getTitleName(), left + 35, top + 1, 0xFFFFFF, false);
 		guiGraphics.drawString(minecraft.font, uuid.toString(), left + 35, top + 12, 0x808080, false);
+		
+		if (hovered && currentlyUsed) {
+			ourScreen.setTooltipForNextRenderPass(minecraft.font.split(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_USED_TOOLTIP), 175));
+		}
 	}
 	
 	@Override
@@ -83,7 +91,7 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 	protected abstract void useEntry();
 	
 	protected MutableComponent getTitleName() {
-		return Component.literal(profile.getName()).withStyle(style -> style.withColor(0xFFFFFF).withItalic(false));
+		return Component.literal(profile.getName()).withStyle(style -> style.withColor(currentlyUsed ? 0x55FF55 : 0xFFFFFF).withItalic(false));
 	}
 	
 }

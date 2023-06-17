@@ -4,6 +4,7 @@ import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocaliza
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_DELETE_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_LAUNCHED_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP;
+import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_LIST_USED_TOOLTIP;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_TITLE;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON;
 import static info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR;
@@ -56,7 +57,8 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_ACCOUNTS_ADD_BUTTON, "Add Account");
 		add(SCREEN_ACCOUNTS_DELETE_BUTTON, "Delete");
 		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TITLE, "Launched Account (%s)");
-		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP, "The account that this minecraft instance was launched with. Might not have a valid access token");
+		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP, "%s and was used to launch your game. Might not have a valid access token");
+		add(SCREEN_ACCOUNTS_LIST_USED_TOOLTIP, "This account is currently used in your minecraft instance");
 		
 		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE, "Add new Minecraft Account");
 		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, "Open the microsoft login page with the button '%s' or '%s'. Then log into the account you want to add");
