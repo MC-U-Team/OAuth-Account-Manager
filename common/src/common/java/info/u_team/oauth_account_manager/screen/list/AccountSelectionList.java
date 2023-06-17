@@ -42,13 +42,13 @@ public class AccountSelectionList extends ScrollableList<AbstractAccountSelectio
 			}
 		});
 		
+		setScrollAmount(getScrollAmount());
+		
 		final LaunchedAccountSelectionEntry entry = new LaunchedAccountSelectionEntry(ourScreen, this);
 		addEntryToTop(entry);
 		if (entry.getUuid().equals(selectedUUID)) {
 			setSelected(entry);
 		}
-		
-		setScrollAmount(getScrollAmount());
 	}
 	
 	public void useSelectedEntry() {

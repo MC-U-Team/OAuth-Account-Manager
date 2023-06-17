@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 public class MultiplayerScreenAdditions {
@@ -17,7 +17,7 @@ public class MultiplayerScreenAdditions {
 	private static final RGBA VALID_COLOR = RGBA.fromARGB(0xFF2CFC03);
 	private static final RGBA INVALID_COLOR = RGBA.fromARGB(0xFFFC0303);
 	
-	public static UButton addButton(JoinMultiplayerScreen screen) {
+	public static UButton addButton(Screen screen) {
 		final UButton button = new UButton(0, 0, 74, 16, Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON));
 		FrameLayout.centerInRectangle(button, 117, 0, screen.width, 45);
 		button.setPressable(() -> {
