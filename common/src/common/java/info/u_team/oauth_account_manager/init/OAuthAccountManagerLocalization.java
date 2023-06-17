@@ -6,6 +6,8 @@ public class OAuthAccountManagerLocalization {
 	public static final String SCREEN_ACCOUNTS_USE_BUTTON = "screen.oauthaccountmanager.accounts.use_button";
 	public static final String SCREEN_ACCOUNTS_ADD_BUTTON = "screen.oauthaccountmanager.accounts.add_button";
 	public static final String SCREEN_ACCOUNTS_DELETE_BUTTON = "screen.oauthaccountmanager.accounts.delete_button";
+	public static final String SCREEN_ACCOUNTS_LIST_LAUNCHED_TITLE = "screen.oauthaccountmanager.accounts.list.launched.title";
+	public static final String SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP = "screen.oauthaccountmanager.accounts.list.launched.tooltip";
 	
 	public static final String SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE = "screen.oauthaccountmanager.add_account_open_link.title";
 	public static final String SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE = "screen.oauthaccountmanager.add_account_open_link.message";

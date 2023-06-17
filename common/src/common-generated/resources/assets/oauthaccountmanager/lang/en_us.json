@@ -13,6 +13,8 @@
 	"screen.oauthaccountmanager.account_login.title": "Logging into minecraft account",
 	"screen.oauthaccountmanager.accounts.add_button": "Add Account",
 	"screen.oauthaccountmanager.accounts.delete_button": "Delete",
+	"screen.oauthaccountmanager.accounts.list.launched.title": "Launched Account (%s)",
+	"screen.oauthaccountmanager.accounts.list.launched.tooltip": "The account that this minecraft instance was launched with. Might not have a valid access token",
 	"screen.oauthaccountmanager.accounts.title": "Manage Minecraft Accounts",
 	"screen.oauthaccountmanager.accounts.use_button": "Use Account",
 	"screen.oauthaccountmanager.add_account_information.message.error": "Microsoft authentication didn't complete sucessfully because: %s",
