@@ -1,68 +1,55 @@
 package info.u_team.oauth_account_manager.screen.list;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.platform.InputConstants;
 
+import info.u_team.oauth_account_manager.screen.AccountCheckValidScreen;
+import info.u_team.oauth_account_manager.screen.AccountLoginScreen;
+import info.u_team.oauth_account_manager.screen.AccountUseScreen;
+import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.oauth_account_manager.util.MinecraftAccounts;
-import info.u_team.u_team_core.gui.elements.ScrollableListEntry;
-import net.minecraft.Util;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.PlayerFaceRenderer;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.screens.Screen;
 
-public class AccountSelectionEntry extends ScrollableListEntry<AccountSelectionEntry> {
+public class AccountSelectionEntry extends AbstractAccountSelectionEntry {
 	
-	private final AccountSelectionList selectionList;
-	
-	private final UUID uuid;
-	private final GameProfile profile;
-	
-	private long lastClickTime;
-	
-	public AccountSelectionEntry(AccountSelectionList selectionList, UUID uuid) {
-		this.selectionList = selectionList;
-		this.uuid = uuid;
-		profile = MinecraftAccounts.getGameProfile(uuid);
+	public AccountSelectionEntry(Screen ourScreen, AccountSelectionList selectionList, UUID uuid, GameProfile profile) {
+		super(ourScreen, selectionList, uuid, profile);
 	}
 	
 	@Override
-	public void render(GuiGraphics guiGraphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick) {
-		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
+	protected void useEntry() {
+		final UUID uuid = getUuid();
 		
-		PlayerFaceRenderer.draw(guiGraphics, skin, left, top, 32, false, false);
-		
-		guiGraphics.drawString(minecraft.font, Component.literal(profile.getName()), left + 35, top + 1, 0xFFFFFF, false);
-		guiGraphics.drawString(minecraft.font, Component.literal(uuid.toString()), left + 35, top + 12, 0x808080, false);
-	}
-	
-	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (keyCode == InputConstants.KEY_RETURN || keyCode == InputConstants.KEY_NUMPADENTER) {
-			selectionList.useSelectedEntry();
+		if (!MinecraftAccounts.isLoaded(uuid)) {
+			showLoginScreen(uuid);
+		} else {
+			showUseScreen(uuid, () -> showLoginScreen(uuid));
 		}
-		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 	
-	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		if (Util.getMillis() - lastClickTime < 250) {
-			selectionList.useSelectedEntry();
-			return true;
+	private void showLoginScreen(UUID uuid) {
+		final AccountLoginScreen loginScreen = new AccountLoginScreen(ourScreen);
+		loginScreen.login(Optional.of(uuid), () -> AuthenticationUtil.createWebAuthenticationMethod().existingAuthentication(MinecraftAccounts.getAccount(uuid)), screen -> {
+			showUseScreen(uuid, () -> showLoginScreen(uuid));
+		});
+		minecraft.setScreen(loginScreen);
+	}
+	
+	private void showUseScreen(UUID uuid, Runnable retry) {
+		final LoadedAccount loadedAccount = MinecraftAccounts.getLoadedAccount(uuid);
+		if (loadedAccount == null) {
+			retry.run();
+			return;
 		}
-		lastClickTime = Util.getMillis();
-		return super.mouseClicked(mouseX, mouseY, button);
-	}
-	
-	@Override
-	public Component getNarration() {
-		return Component.literal(profile.getName());
-	}
-	
-	public UUID getUuid() {
-		return uuid;
+		final AccountCheckValidScreen validScreen = new AccountCheckValidScreen(ourScreen, retry, () -> {
+			final AccountUseScreen useScreen = new AccountUseScreen(ourScreen, MinecraftAccounts.getGameProfile(uuid), loadedAccount);
+			minecraft.setScreen(useScreen);
+		});
+		validScreen.checkAccount(loadedAccount.user().accessToken());
+		minecraft.setScreen(validScreen);
 	}
 	
 }

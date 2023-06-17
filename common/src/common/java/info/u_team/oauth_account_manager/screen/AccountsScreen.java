@@ -1,7 +1,7 @@
 package info.u_team.oauth_account_manager.screen;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
-import info.u_team.oauth_account_manager.screen.list.AccountSelectionEntry;
+import info.u_team.oauth_account_manager.screen.list.AbstractAccountSelectionEntry;
 import info.u_team.oauth_account_manager.screen.list.AccountSelectionList;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
@@ -27,7 +27,7 @@ public class AccountsScreen extends UScreen {
 		list = new AccountSelectionList(this) {
 			
 			@Override
-			public void setSelected(AccountSelectionEntry selected) {
+			public void setSelected(AbstractAccountSelectionEntry selected) {
 				super.setSelected(selected);
 				updateButtonState(selected);
 			}
@@ -81,7 +81,7 @@ public class AccountsScreen extends UScreen {
 		minecraft.setScreen(lastScreen);
 	}
 	
-	public void updateButtonState(AccountSelectionEntry entry) {
+	public void updateButtonState(AbstractAccountSelectionEntry entry) {
 		if (entry == null) {
 			useButton.active = false;
 			deleteButton.active = false;
