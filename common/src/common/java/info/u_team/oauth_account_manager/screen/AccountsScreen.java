@@ -39,7 +39,10 @@ public class AccountsScreen extends UScreen {
 	protected void init() {
 		super.init();
 		
-		addRenderableWidget(MultiplayerScreenAdditions.addButton(width, lastScreen));
+		final UButton button = addRenderableWidget(MultiplayerScreenAdditions.addButton(width, lastScreen));
+		button.setPressable(() -> {
+			resize(minecraft, width, height);
+		});
 		
 		addRenderableWidget(list);
 		list.updateSettings(width, height, 32, height - 64, 0, width);
