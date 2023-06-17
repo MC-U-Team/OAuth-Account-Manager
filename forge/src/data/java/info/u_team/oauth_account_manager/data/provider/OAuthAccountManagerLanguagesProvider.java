@@ -57,8 +57,8 @@ public class OAuthAccountManagerLanguagesProvider extends CommonLanguagesProvide
 		add(SCREEN_ACCOUNTS_ADD_BUTTON, "Add Account");
 		add(SCREEN_ACCOUNTS_DELETE_BUTTON, "Delete");
 		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TITLE, "Launched Account (%s)");
-		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP, "%s and was used to launch your game. Might not have a valid access token");
-		add(SCREEN_ACCOUNTS_LIST_USED_TOOLTIP, "This account is currently used in your minecraft instance");
+		add(SCREEN_ACCOUNTS_LIST_LAUNCHED_TOOLTIP, "%s and was used to launch the game. Might not have a valid access token");
+		add(SCREEN_ACCOUNTS_LIST_USED_TOOLTIP, "This account is currently used in this minecraft instance");
 		
 		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_TITLE, "Add new Minecraft Account");
 		add(SCREEN_ADD_ACCOUNT_OPEN_LINK_MESSAGE, "Open the microsoft login page with the button '%s' or '%s'. Then log into the account you want to add");
