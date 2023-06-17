@@ -36,8 +36,10 @@ public class MultiplayerScreenAdditions {
 				color = INVALID_COLOR;
 				tooltip = Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_INVALID).withStyle(ChatFormatting.RED);
 			}
-			button.setButtonColor(color);
-			button.setTooltip(Tooltip.create(tooltip));
+			Minecraft.getInstance().execute(() -> {
+				button.setButtonColor(color);
+				button.setTooltip(Tooltip.create(tooltip));
+			});
 		});
 		return button;
 	}

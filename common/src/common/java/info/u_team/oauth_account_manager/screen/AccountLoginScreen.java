@@ -66,11 +66,11 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			final Authenticator authenticator = authenticationResult.get().buildAuthenticator(true);
 			try {
 				authenticator.run(state -> {
-					setInformationMessage(getLoginStateComponent(state));
+					minecraft.execute(() -> setInformationMessage(getLoginStateComponent(state)));
 				});
 			} catch (final AuthenticationException ex) {
 				if (!(ex.getCause() instanceof InterruptedException)) {
-					setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
+					minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 					OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services didn't complete sucessfully", ex);
 				}
 				
@@ -96,7 +96,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 					}
 				}
 			} catch (final IllegalArgumentException ex) {
-				setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
+				minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 				OAuthAccountManagerReference.LOGGER.error("Cannot add minecraft account", ex);
 				return;
 			}
@@ -107,12 +107,13 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			// Add account
 			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), profile, new LoadedAccount(user, xboxProfile));
 			
-			playerIconWidget.setProfile(profile);
-			setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
-			
-			if (callback != null) {
-				callback.accept(this);
-			}
+			minecraft.execute(() -> {
+				playerIconWidget.setProfile(profile);
+				setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
+				if (callback != null) {
+					callback.accept(this);
+				}
+			});
 		});
 	}
 }

@@ -55,13 +55,7 @@ public class AccountUseScreen extends UScreen {
 		playerIconWidget = addRenderableWidget(new PlayerIconWidget(width / 2 - 32, height / 2 - 32, 64, gameProfile));
 		
 		doneButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_DONE));
-		doneButton.setPressable(() -> {
-			try {
-				useAccount();
-			} catch (AuthenticationException e) {
-				e.printStackTrace();
-			}
-		});
+		doneButton.setPressable(this::useAccount);
 		
 		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
@@ -100,8 +94,8 @@ public class AccountUseScreen extends UScreen {
 		messageWidget.setX((width / 2) - (messageWidget.getWidth() / 2));
 	}
 	
-	private void useAccount() throws AuthenticationException {
-		setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING));
+	private void useAccount() {
+		minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING)));
 		CompletableFuture.runAsync(() -> {
 			try {
 				final var msUser = loadedAccount.user();
@@ -125,7 +119,7 @@ public class AccountUseScreen extends UScreen {
 					minecraft.setScreen(lastScreen);
 				});
 			} catch (final AuthenticationException ex) {
-				setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR));
+				minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR)));
 			}
 		});
 	}

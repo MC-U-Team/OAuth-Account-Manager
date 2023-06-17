@@ -31,7 +31,7 @@ public class AddAccountOAuthScreen extends CommonWaitingScreen {
 				result = method.initalAuthentication();
 			} catch (final AuthenticationException ex) {
 				if (!(ex.getCause() instanceof InterruptedException)) {
-					setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage()));
+					minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 					OAuthAccountManagerReference.LOGGER.warn("Microsoft OAuth didn't complete sucessfully", ex);
 				}
 				return;

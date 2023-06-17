@@ -70,9 +70,9 @@ public class AccountSelectionList extends ScrollableList<AccountSelectionEntry> 
 	
 	private void showLoginScreen(UUID uuid) {
 		final AccountLoginScreen loginScreen = new AccountLoginScreen(ourScreen);
-		loginScreen.login(Optional.of(uuid), () -> AuthenticationUtil.createWebAuthenticationMethod().existingAuthentication(MinecraftAccounts.getAccount(uuid)), screen -> minecraft.execute(() -> {
+		loginScreen.login(Optional.of(uuid), () -> AuthenticationUtil.createWebAuthenticationMethod().existingAuthentication(MinecraftAccounts.getAccount(uuid)), screen -> {
 			showUseScreen(uuid, () -> showLoginScreen(uuid));
-		}));
+		});
 		minecraft.setScreen(loginScreen);
 	}
 	

@@ -91,12 +91,14 @@ public class AccountCheckValidScreen extends UScreen {
 	
 	public void checkAccount(String accessToken) {
 		future = AuthenticationUtil.isAccessTokenValid(accessToken).orTimeout(30, TimeUnit.SECONDS).thenAccept(valid -> {
-			if (valid) {
-				minecraft.execute(validCallback);
-			} else {
-				retryButton.active = true;
-				setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_INVALID));
-			}
+			minecraft.execute(() -> {
+				if (valid) {
+					validCallback.run();
+				} else {
+					retryButton.active = true;
+					setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_CHECK_ACCOUNT_VALID_MESSAGE_INVALID));
+				}
+			});
 		});
 	}
 }
