@@ -18,7 +18,9 @@ import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.LoginState;
 import net.hycrafthd.minecraft_authenticator.login.User;
 import net.hycrafthd.minecraft_authenticator.login.XBoxProfile;
+import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
 import net.hycrafthd.simple_minecraft_authenticator.result.AuthenticationResult;
+import net.hycrafthd.simple_minecraft_authenticator.util.AuthenticationFutureUtil;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -62,12 +64,15 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 	
 	public void login(Optional<UUID> accountUUID, Supplier<AuthenticationResult> authenticationResult, Consumer<AccountLoginScreen> callback) {
 		createWaitingThread(() -> {
-			// Run authentication to minecraft services
 			final Authenticator authenticator = authenticationResult.get().buildAuthenticator(true);
 			try {
-				authenticator.run(state -> {
-					minecraft.execute(() -> setInformationMessage(getLoginStateComponent(state)));
-				});
+				AuthenticationFutureUtil.runAuthentication(SimpleMinecraftAuthentication.getExecutor(), () -> {
+					// Run authentication to minecraft services
+					authenticator.run(state -> {
+						minecraft.execute(() -> setInformationMessage(getLoginStateComponent(state)));
+					});
+					return null;
+				}, 300, true);
 			} catch (final AuthenticationException ex) {
 				if (!(ex.getCause() instanceof InterruptedException)) {
 					minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
@@ -76,9 +81,10 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 				
 				// In error state update authentication file if uuid is known already
 				accountUUID.ifPresent(uuid -> {
-					MinecraftAccounts.updateAuthenticationFile(uuid, authenticator.getResultFile());
+					if (authenticator.getResultFile() != null) {
+						MinecraftAccounts.updateAuthenticationFile(uuid, authenticator.getResultFile());
+					}
 				});
-				
 				return;
 			}
 			
