@@ -2,6 +2,7 @@ package info.u_team.oauth_account_manager.screen;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.list.AbstractAccountSelectionEntry;
+import info.u_team.oauth_account_manager.screen.list.AccountSelectionEntry;
 import info.u_team.oauth_account_manager.screen.list.AccountSelectionList;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
@@ -87,7 +88,7 @@ public class AccountsScreen extends UScreen {
 			deleteButton.active = false;
 		} else {
 			useButton.active = true;
-			deleteButton.active = true;
+			deleteButton.active = entry instanceof AccountSelectionEntry;
 		}
 	}
 	

@@ -67,6 +67,10 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 		return uuid;
 	}
 	
+	public GameProfile getProfile() {
+		return profile;
+	}
+	
 	protected abstract void useEntry();
 	
 }

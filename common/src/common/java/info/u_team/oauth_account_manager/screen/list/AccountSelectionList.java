@@ -2,6 +2,8 @@ package info.u_team.oauth_account_manager.screen.list;
 
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 import info.u_team.oauth_account_manager.util.MinecraftAccounts;
 import info.u_team.u_team_core.gui.elements.ScrollableList;
 import net.minecraft.client.gui.screens.Screen;
@@ -30,13 +32,22 @@ public class AccountSelectionList extends ScrollableList<AbstractAccountSelectio
 	public void loadEntries() {
 		final UUID selectedUUID = getSelected() != null ? getSelected().getUuid() : null;
 		clearEntries();
-		MinecraftAccounts.getAccountUUIDs().stream().sorted().map(uuid -> new AccountSelectionEntry(ourScreen, this, uuid, MinecraftAccounts.getGameProfile(uuid))).forEach(entry -> {
+		
+		MinecraftAccounts.getAccountUUIDs().stream().map(uuid -> new AccountSelectionEntry(ourScreen, this, uuid, MinecraftAccounts.getGameProfile(uuid))).sorted((a, b) -> {
+			return StringUtils.compare(a.getProfile().getName(), b.getProfile().getName());
+		}).forEach(entry -> {
 			addEntry(entry);
 			if (entry.getUuid().equals(selectedUUID)) {
 				setSelected(entry);
 			}
 		});
-		addEntryToTop(new LaunchedAccountSelectionEntry(ourScreen, this));
+		
+		final LaunchedAccountSelectionEntry entry = new LaunchedAccountSelectionEntry(ourScreen, this);
+		addEntryToTop(entry);
+		if (entry.getUuid().equals(selectedUUID)) {
+			setSelected(entry);
+		}
+		
 		setScrollAmount(getScrollAmount());
 	}
 	
