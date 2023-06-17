@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.minecraft.UserApiService;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
@@ -14,6 +13,7 @@ import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.User;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -75,10 +75,10 @@ public class AccountUseScreen extends UScreen {
 	}
 	
 	@Override
-	public void renderForeground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderForeground(poseStack, mouseX, mouseY, partialTick);
+	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.renderForeground(guiGraphics, mouseX, mouseY, partialTick);
 		
-		drawCenteredString(poseStack, font, title, width / 2, 20, 0xFFFFFF);
+		guiGraphics.drawCenteredString(font, title, width / 2, 20, 0xFFFFFF);
 	}
 	
 	@Override

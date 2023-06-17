@@ -8,6 +8,7 @@ import info.u_team.u_team_core.api.gui.PerspectiveRenderable;
 import info.u_team.u_team_core.util.RGBA;
 import info.u_team.u_team_core.util.RenderUtil;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
@@ -26,13 +27,15 @@ public class LoadingSpinnerWidget extends AbstractWidget implements PerspectiveR
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		renderBackground(poseStack, mouseX, mouseY, partialTick);
-		renderForeground(poseStack, mouseX, mouseY, partialTick);
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+		renderForeground(guiGraphics, mouseX, mouseY, partialTick);
 	}
 	
 	@Override
-	public void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		final PoseStack poseStack = guiGraphics.pose();
+		
 		poseStack.pushPose();
 		
 		poseStack.translate(getX(), getY(), 0);
@@ -55,7 +58,7 @@ public class LoadingSpinnerWidget extends AbstractWidget implements PerspectiveR
 	}
 	
 	@Override
-	public void renderForeground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 	}
 	
 	@Override

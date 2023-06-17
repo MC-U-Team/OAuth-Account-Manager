@@ -1,10 +1,9 @@
 package info.u_team.oauth_account_manager.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import info.u_team.oauth_account_manager.screen.widget.LoadingSpinnerWidget;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -55,10 +54,10 @@ public class CommonWaitingScreen extends UScreen {
 	}
 	
 	@Override
-	public void renderForeground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderForeground(poseStack, mouseX, mouseY, partialTick);
+	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.renderForeground(guiGraphics, mouseX, mouseY, partialTick);
 		
-		drawCenteredString(poseStack, font, title, width / 2, 20, 0xFFFFFF);
+		guiGraphics.drawCenteredString(font, title, width / 2, 20, 0xFFFFFF);
 	}
 	
 	@Override

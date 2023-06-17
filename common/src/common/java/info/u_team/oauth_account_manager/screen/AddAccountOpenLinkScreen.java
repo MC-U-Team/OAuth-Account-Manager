@@ -1,13 +1,12 @@
 package info.u_team.oauth_account_manager.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
@@ -56,11 +55,11 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	}
 	
 	@Override
-	public void renderForeground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-		super.renderForeground(poseStack, mouseX, mouseY, partialTick);
+	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.renderForeground(guiGraphics, mouseX, mouseY, partialTick);
 		
-		drawCenteredString(poseStack, font, title, width / 2, 20, 0xFFFFFF);
-		message.renderCentered(poseStack, width / 2, height / 2 - 40);
+		guiGraphics.drawCenteredString(font, title, width / 2, 20, 0xFFFFFF);
+		message.renderCentered(guiGraphics, width / 2, height / 2 - 40);
 	}
 	
 	@Override

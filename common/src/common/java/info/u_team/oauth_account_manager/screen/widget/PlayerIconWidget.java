@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import info.u_team.u_team_core.api.gui.PerspectiveRenderable;
 import info.u_team.u_team_core.api.gui.TooltipRenderable;
 import info.u_team.u_team_core.util.WidgetUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.PlayerFaceRenderer;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -39,30 +38,29 @@ public class PlayerIconWidget extends AbstractWidget implements PerspectiveRende
 	}
 	
 	@Override
-	public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		if (profile != null) {
-			renderBackground(poseStack, mouseX, mouseY, partialTick);
-			renderForeground(poseStack, mouseX, mouseY, partialTick);
-			WidgetUtil.renderCustomTooltipForWidget(this, poseStack, mouseX, mouseY, partialTick);
+			renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+			renderForeground(guiGraphics, mouseX, mouseY, partialTick);
+			WidgetUtil.renderCustomTooltipForWidget(this, guiGraphics, mouseX, mouseY, partialTick);
 		}
 	}
 	
 	@Override
-	public void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
 		
-		RenderSystem.setShaderTexture(0, skin);
-		PlayerFaceRenderer.draw(poseStack, getX(), getY(), getWidth(), false, false);
+		PlayerFaceRenderer.draw(guiGraphics, skin, getX(), getY(), getWidth(), false, false);
 	}
 	
 	@Override
-	public void renderForeground(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 	}
 	
 	@Override
-	public void renderTooltip(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+	public void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		if (isHovered) {
-			minecraft.screen.renderTooltip(poseStack, List.of(Component.literal(profile.getName())), Optional.empty(), mouseX, mouseY);
+			guiGraphics.renderTooltip(minecraft.font, List.of(Component.literal(profile.getName())), Optional.empty(), mouseX, mouseY);
 		}
 	}
 	
