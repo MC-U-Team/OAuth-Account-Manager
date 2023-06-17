@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,6 +58,8 @@ public class MinecraftAccounts {
 			final GameProfile profile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), false);
 			LOADED_GAME_PROFILES.put(uuid, profile);
 		}
+		
+		OAuthAccountManagerReference.LOGGER.info("Loaded {} account" + (ACCOUNTS.size() != 1 ? "s" : "") + " ({})", ACCOUNTS.size(), LOADED_GAME_PROFILES.values().stream().map(GameProfile::getName).collect(Collectors.joining()));
 	}
 	
 	private static void save() throws IOException {
