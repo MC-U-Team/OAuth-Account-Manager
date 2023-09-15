@@ -113,7 +113,7 @@ dependencies {
 	
 	modRuntimeOnly "com.terraformersmc:modmenu:${config.modmenu.fabric.version}"
 	
-	shade ("net.hycrafthd:simple_minecraft_authenticator:2.2.2") {
+	shade ("net.hycrafthd:simple_minecraft_authenticator:2.2.3") {
 		exclude group: "com.google.code.gson", module: "gson"
 	}
 }
