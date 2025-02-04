@@ -58,8 +58,8 @@ public class AccountDeleteScreen extends UScreen {
 	}
 	
 	@Override
-	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		super.renderForeground(guiGraphics, mouseX, mouseY, partialTick);
+	public void renderBefore(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		super.renderBefore(guiGraphics, mouseX, mouseY, partialTick);
 		
 		guiGraphics.drawCenteredString(font, title, width / 2, 20, 0xFFFFFF);
 	}
