@@ -1,9 +1,9 @@
 package info.u_team.oauth_account_manager.init;
 
 import info.u_team.oauth_account_manager.screen.MultiplayerScreenAdditions;
+import info.u_team.u_team_core.util.registry.BusRegister;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 public class OAuthAccountManagerEventHandler {
 	
@@ -14,8 +14,8 @@ public class OAuthAccountManagerEventHandler {
 		event.addListener(MultiplayerScreenAdditions.addButton(multiplayerScreen.width, multiplayerScreen));
 	}
 	
-	public static void registerForge(IEventBus bus) {
-		bus.addListener(OAuthAccountManagerEventHandler::onScreenInitPost);
+	static void register() {
+		BusRegister.registerForge(bus -> bus.addListener(OAuthAccountManagerEventHandler::onScreenInitPost));
 	}
 	
 }
