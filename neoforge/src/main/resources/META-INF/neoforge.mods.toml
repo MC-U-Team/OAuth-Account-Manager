@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="[2,)"
+issueTrackerURL="https://github.com/MC-U-Team/OAuth-Account-Manager/issues"
+license="Apache-2.0 License"
+
+[[mods]]
+	modId="oauthaccountmanager"
+	version="${file.jarVersion}"
+	displayName="OAuth Account Manager"
+	displayURL="https://u-team.info/mods/oauthaccountmanager"
+	updateJSONURL="https://api.u-team.info/update/oauthaccountmanager.json"
+	logoFile="logo.png"
+	credits="Team U-Team"
+	authors="HyCraftHD"
+	description="Join our discord server here: https://discord.hycrafthd.net\n\nManage and switch multiple minecraft accounts in game"
+	
+	[[dependencies.oauthaccountmanager]]
+		modId="neoforge"
+		type="required"
+		versionRange="[21.1.93,)"
+		ordering="NONE"
+		side="BOTH"
+	
+	[[dependencies.oauthaccountmanager]]
+		modId="minecraft"
+		type="required"
+		versionRange="[1.21.1]"
+		ordering="NONE"
+		side="BOTH"
+	    
+	[[dependencies.oauthaccountmanager]]
+		modId="uteamcore"
+		type="required"
+		versionRange="[5.6.2.354,)"
+		ordering="NONE"
+		side="BOTH"

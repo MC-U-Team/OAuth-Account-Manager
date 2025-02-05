@@ -3,10 +3,10 @@ package info.u_team.oauth_account_manager.data;
 import info.u_team.oauth_account_manager.OAuthAccountManagerMod;
 import info.u_team.oauth_account_manager.data.provider.OAuthAccountManagerLanguagesProvider;
 import info.u_team.u_team_core.data.GenerationData;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 @EventBusSubscriber(modid = OAuthAccountManagerMod.MODID, bus = Bus.MOD)
 public class OAuthAccountManagerDataGenerator {
