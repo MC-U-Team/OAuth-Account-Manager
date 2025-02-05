@@ -72,7 +72,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		method.registerLoginUrlCallback(url -> {
 			minecraft.execute(() -> {
 				if (open) {
-					Util.getPlatform().openUrl(url);
+					Util.getPlatform().openUri(url.toString());
 				} else {
 					minecraft.keyboardHandler.setClipboard(url.toString());
 				}

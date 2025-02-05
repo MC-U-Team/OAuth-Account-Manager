@@ -19,10 +19,10 @@ public class LaunchedAccountSelectionEntry extends AbstractAccountSelectionEntry
 	
 	static {
 		final Minecraft minecraft = Minecraft.getInstance();
-		LAUNCHED_DATA = new MinecraftAccountData(minecraft.userApiService, minecraft.user, minecraft.playerSocialManager, minecraft.telemetryManager, minecraft.profileKeyPairManager, minecraft.reportingContext, minecraft.profileProperties);
-		LAUNCHED_GAME_PROFILE = LAUNCHED_DATA.user().getGameProfile();
-		Util.backgroundExecutor().execute(() -> {
-			LAUNCHED_GAME_PROFILE = minecraft.getMinecraftSessionService().fillProfileProperties(LAUNCHED_GAME_PROFILE, false);
+		LAUNCHED_DATA = new MinecraftAccountData(minecraft.userApiService, minecraft.user, minecraft.playerSocialManager, minecraft.telemetryManager, minecraft.profileKeyPairManager, minecraft.reportingContext);
+		LAUNCHED_GAME_PROFILE = new GameProfile(LAUNCHED_DATA.user().getProfileId(), LAUNCHED_DATA.user().getName());
+		Util.nonCriticalIoPool().execute(() -> {
+			LAUNCHED_GAME_PROFILE = minecraft.getGameProfile();
 		});
 	}
 	

@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.util.UUIDTypeAdapter;
+import com.mojang.util.UndashedUuid;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
@@ -94,7 +94,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			// Parse uuid and validate
 			final UUID uuid;
 			try {
-				uuid = UUIDTypeAdapter.fromString(user.uuid());
+				uuid = UndashedUuid.fromStringLenient(user.uuid());
 				
 				if (accountUUID.isPresent()) {
 					if (!accountUUID.get().equals(uuid)) {
@@ -108,7 +108,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			}
 			
 			// Retrieve game profile
-			final GameProfile profile = minecraft.getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), false);
+			final GameProfile profile = minecraft.getMinecraftSessionService().fetchProfile(uuid, true).profile();
 			
 			// Add account
 			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), profile, new LoadedAccount(user, xboxProfile));

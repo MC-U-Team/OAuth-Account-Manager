@@ -39,7 +39,7 @@ public abstract class AbstractAccountSelectionEntry extends ScrollableListEntry<
 	
 	@Override
 	public void render(GuiGraphics guiGraphics, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float partialTick) {
-		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
+		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkin(profile).texture();
 		
 		PlayerFaceRenderer.draw(guiGraphics, skin, left, top, 32, false, false);
 		

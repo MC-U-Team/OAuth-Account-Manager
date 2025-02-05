@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.minecraft.UserApiService;
-import com.mojang.authlib.properties.PropertyMap;
+import com.mojang.util.UndashedUuid;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
@@ -57,13 +57,13 @@ public class AuthenticationUtil {
 		final var msUser = loadedAccount.user();
 		
 		final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
-		final User user = new User(msUser.name(), msUser.uuid(), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
+		final User user = new User(msUser.name(), UndashedUuid.fromStringLenient(msUser.uuid()), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
 		final PlayerSocialManager playerSocialManager = new PlayerSocialManager(minecraft, userApiService);
 		final ClientTelemetryManager clientTelemetryManager = new ClientTelemetryManager(minecraft, userApiService, user);
 		final ProfileKeyPairManager profileKeyPairManager = ProfileKeyPairManager.create(userApiService, user, minecraft.gameDirectory.toPath());
 		final ReportingContext reportingContext = ReportingContext.create(ReportEnvironment.local(), userApiService);
 		
-		return new MinecraftAccountData(userApiService, user, playerSocialManager, clientTelemetryManager, profileKeyPairManager, reportingContext, gameProfile.getProperties());
+		return new MinecraftAccountData(userApiService, user, playerSocialManager, clientTelemetryManager, profileKeyPairManager, reportingContext);
 	}
 	
 	public static void setMinecraftAccountData(MinecraftAccountData data) {
@@ -75,9 +75,8 @@ public class AuthenticationUtil {
 		minecraft.telemetryManager = data.clientTelemetryManager;
 		minecraft.profileKeyPairManager = data.profileKeyPairManager;
 		minecraft.reportingContext = data.reportingContext;
-		minecraft.profileProperties = data.profileProperties;
 	}
 	
-	public static record MinecraftAccountData(UserApiService userApiService, User user, PlayerSocialManager playerSocialManager, ClientTelemetryManager clientTelemetryManager, ProfileKeyPairManager profileKeyPairManager, ReportingContext reportingContext, PropertyMap profileProperties) {
+	public static record MinecraftAccountData(UserApiService userApiService, User user, PlayerSocialManager playerSocialManager, ClientTelemetryManager clientTelemetryManager, ProfileKeyPairManager profileKeyPairManager, ReportingContext reportingContext) {
 	}
 }

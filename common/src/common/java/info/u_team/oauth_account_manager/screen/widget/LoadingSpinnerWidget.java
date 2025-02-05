@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class LoadingSpinnerWidget extends AbstractWidget implements PerspectiveRenderable {
 	
-	private static final ResourceLocation SPINNER = new ResourceLocation(OAuthAccountManagerReference.MODID, "textures/gui/spinner.png");
+	private static final ResourceLocation SPINNER = ResourceLocation.fromNamespaceAndPath(OAuthAccountManagerReference.MODID, "textures/gui/spinner.png");
 	
 	private long lastTime;
 	private int currentRotation;
@@ -28,12 +28,12 @@ public class LoadingSpinnerWidget extends AbstractWidget implements PerspectiveR
 	
 	@Override
 	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-		renderForeground(guiGraphics, mouseX, mouseY, partialTick);
+		renderBehind(guiGraphics, mouseX, mouseY, partialTick);
+		renderBefore(guiGraphics, mouseX, mouseY, partialTick);
 	}
 	
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	public void renderBehind(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		final PoseStack poseStack = guiGraphics.pose();
 		
 		poseStack.pushPose();
@@ -58,7 +58,7 @@ public class LoadingSpinnerWidget extends AbstractWidget implements PerspectiveR
 	}
 	
 	@Override
-	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	public void renderBefore(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 	}
 	
 	@Override

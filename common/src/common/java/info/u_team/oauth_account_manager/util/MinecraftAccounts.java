@@ -55,7 +55,7 @@ public class MinecraftAccounts {
 		}
 		
 		for (final UUID uuid : ACCOUNTS.keySet()) {
-			final GameProfile profile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), false);
+			final GameProfile profile = Minecraft.getInstance().getMinecraftSessionService().fetchProfile(uuid, true).profile();
 			LOADED_GAME_PROFILES.put(uuid, profile);
 		}
 		

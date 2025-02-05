@@ -45,7 +45,7 @@ public class AccountsScreen extends UScreen {
 		});
 		
 		addRenderableWidget(list);
-		list.updateSettings(width, height, 32, height - 64, 0, width);
+		list.setRectangle(width, height - 64 - 32, 0, 32);
 		
 		useButton = addRenderableWidget(new UButton(0, 0, 74, 20, Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACCOUNTS_USE_BUTTON)));
 		useButton.setPressable(list::useSelectedEntry);

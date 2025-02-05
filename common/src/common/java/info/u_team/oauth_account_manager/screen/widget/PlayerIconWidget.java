@@ -40,21 +40,21 @@ public class PlayerIconWidget extends AbstractWidget implements PerspectiveRende
 	@Override
 	public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		if (profile != null) {
-			renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-			renderForeground(guiGraphics, mouseX, mouseY, partialTick);
+			renderBehind(guiGraphics, mouseX, mouseY, partialTick);
+			renderBefore(guiGraphics, mouseX, mouseY, partialTick);
 			WidgetUtil.renderCustomTooltipForWidget(this, guiGraphics, mouseX, mouseY, partialTick);
 		}
 	}
 	
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
+	public void renderBefore(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+		final ResourceLocation skin = minecraft.getSkinManager().getInsecureSkin(profile).texture();
 		
 		PlayerFaceRenderer.draw(guiGraphics, skin, getX(), getY(), getWidth(), false, false);
 	}
 	
 	@Override
-	public void renderForeground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+	public void renderBehind(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 	}
 	
 	@Override
