@@ -9,8 +9,8 @@ import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
+import net.minecraft.client.gui.layouts.EqualSpacingLayout;
 import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -48,7 +48,7 @@ public class AccountCheckValidScreen extends UScreen {
 		cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(this::cancelChecking);
 		
-		final LinearLayout layout = new LinearLayout(205, 20, LinearLayout.Orientation.HORIZONTAL);
+		final EqualSpacingLayout layout = new EqualSpacingLayout(205, 20, EqualSpacingLayout.Orientation.HORIZONTAL);
 		layout.addChild(retryButton);
 		layout.addChild(cancelButton);
 		layout.arrangeElements();

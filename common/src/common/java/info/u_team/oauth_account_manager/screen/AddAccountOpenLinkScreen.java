@@ -8,8 +8,8 @@ import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.client.gui.layouts.EqualSpacingLayout;
 import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,7 @@ public class AddAccountOpenLinkScreen extends UScreen {
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 100, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
 		
-		final LinearLayout layout = new LinearLayout(308, 20, LinearLayout.Orientation.HORIZONTAL);
+		final EqualSpacingLayout layout = new EqualSpacingLayout(308, 20, EqualSpacingLayout.Orientation.HORIZONTAL);
 		layout.addChild(openLink);
 		layout.addChild(copyClipboard);
 		layout.addChild(cancelButton);

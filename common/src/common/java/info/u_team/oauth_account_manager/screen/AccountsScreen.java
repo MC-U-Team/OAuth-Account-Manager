@@ -7,8 +7,8 @@ import info.u_team.oauth_account_manager.screen.list.AccountSelectionList;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.layouts.EqualSpacingLayout;
 import net.minecraft.client.gui.layouts.FrameLayout;
-import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -65,7 +65,7 @@ public class AccountsScreen extends UScreen {
 		final UButton cancelButton = addRenderableWidget(new UButton(0, 0, 74, 20, CommonComponents.GUI_CANCEL));
 		cancelButton.setPressable(() -> minecraft.setScreen(lastScreen));
 		
-		final LinearLayout layout = new LinearLayout(308, 20, LinearLayout.Orientation.HORIZONTAL);
+		final EqualSpacingLayout layout = new EqualSpacingLayout(308, 20, EqualSpacingLayout.Orientation.HORIZONTAL);
 		layout.addChild(useButton);
 		layout.addChild(addButton);
 		layout.addChild(deleteButton);
