@@ -8,6 +8,10 @@ accessible field net/minecraft/client/Minecraft telemetryManager Lnet/minecraft/
 accessible field net/minecraft/client/Minecraft profileKeyPairManager Lnet/minecraft/client/multiplayer/ProfileKeyPairManager;
 accessible field net/minecraft/client/Minecraft reportingContext Lnet/minecraft/client/multiplayer/chat/report/ReportingContext;
 accessible field net/minecraft/client/Minecraft profileFuture Ljava/util/concurrent/CompletableFuture;
+accessible field net/minecraft/client/Minecraft userPropertiesFuture Ljava/util/concurrent/CompletableFuture;
+accessible field net/minecraft/client/Minecraft realmsDataFetcher Lcom/mojang/realmsclient/gui/RealmsDataFetcher;
+accessible field net/minecraft/client/resources/SplashManager user Lnet/minecraft/client/User;
+accessible field com/mojang/realmsclient/RealmsAvailability future Ljava/util/concurrent/CompletableFuture;
 
 mutable field net/minecraft/client/Minecraft authenticationService Lcom/mojang/authlib/yggdrasil/YggdrasilAuthenticationService;
 mutable field net/minecraft/client/Minecraft userApiService Lcom/mojang/authlib/minecraft/UserApiService;
@@ -17,3 +21,6 @@ mutable field net/minecraft/client/Minecraft telemetryManager Lnet/minecraft/cli
 mutable field net/minecraft/client/Minecraft profileKeyPairManager Lnet/minecraft/client/multiplayer/ProfileKeyPairManager;
 mutable field net/minecraft/client/Minecraft reportingContext Lnet/minecraft/client/multiplayer/chat/report/ReportingContext;
 mutable field net/minecraft/client/Minecraft profileFuture Ljava/util/concurrent/CompletableFuture;
+mutable field net/minecraft/client/Minecraft userPropertiesFuture Ljava/util/concurrent/CompletableFuture;
+mutable field net/minecraft/client/Minecraft realmsDataFetcher Lcom/mojang/realmsclient/gui/RealmsDataFetcher;
+mutable field net/minecraft/client/resources/SplashManager user Lnet/minecraft/client/User;

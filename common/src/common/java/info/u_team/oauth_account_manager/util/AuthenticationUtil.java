@@ -9,14 +9,21 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import com.mojang.authlib.GameProfile;
+import org.slf4j.LoggerFactory;
+
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.minecraft.UserApiService;
+import com.mojang.authlib.minecraft.UserApiService.UserProperties;
+import com.mojang.authlib.yggdrasil.ProfileResult;
+import com.mojang.realmsclient.RealmsAvailability;
+import com.mojang.realmsclient.client.RealmsClient;
+import com.mojang.realmsclient.gui.RealmsDataFetcher;
 import com.mojang.util.UndashedUuid;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import net.hycrafthd.simple_minecraft_authenticator.SimpleMinecraftAuthentication;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.User;
 import net.minecraft.client.gui.screens.social.PlayerSocialManager;
@@ -51,32 +58,48 @@ public class AuthenticationUtil {
 		return SimpleMinecraftAuthentication.getMethod("web").get().create(new LoggedPrintStream("OAuth-Account-Manager", System.out), System.in);
 	}
 	
-	public static MinecraftAccountData createMinecraftAccountData(LoadedAccount loadedAccount, GameProfile gameProfile) throws AuthenticationException {
+	public static MinecraftAccountData createMinecraftAccountData(LoadedAccount loadedAccount) throws AuthenticationException {
 		final Minecraft minecraft = Minecraft.getInstance();
 		
 		final var msUser = loadedAccount.user();
 		
-		final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
 		final User user = new User(msUser.name(), UndashedUuid.fromStringLenient(msUser.uuid()), msUser.accessToken(), Optional.of(msUser.xuid()), Optional.of(msUser.clientId()), User.Type.byName(msUser.type()));
+		final CompletableFuture<ProfileResult> profileFuture = CompletableFuture.supplyAsync(() -> minecraft.getMinecraftSessionService().fetchProfile(user.getProfileId(), true), Util.nonCriticalIoPool());
+		final UserApiService userApiService = minecraft.authenticationService.createUserApiService(msUser.accessToken());
+		final CompletableFuture<UserProperties> userPropertiesFuture = CompletableFuture.supplyAsync(() -> {
+			try {
+				return userApiService.fetchProperties();
+			} catch (final AuthenticationException ex) {
+				LoggerFactory.getLogger(Minecraft.class).error("Failed to fetch user properties", ex);
+				return UserApiService.OFFLINE_PROPERTIES;
+			}
+		}, Util.nonCriticalIoPool());
 		final PlayerSocialManager playerSocialManager = new PlayerSocialManager(minecraft, userApiService);
 		final ClientTelemetryManager clientTelemetryManager = new ClientTelemetryManager(minecraft, userApiService, user);
 		final ProfileKeyPairManager profileKeyPairManager = ProfileKeyPairManager.create(userApiService, user, minecraft.gameDirectory.toPath());
 		final ReportingContext reportingContext = ReportingContext.create(ReportEnvironment.local(), userApiService);
 		
-		return new MinecraftAccountData(userApiService, user, playerSocialManager, clientTelemetryManager, profileKeyPairManager, reportingContext);
+		return new MinecraftAccountData(user, profileFuture, userApiService, userPropertiesFuture, playerSocialManager, clientTelemetryManager, profileKeyPairManager, reportingContext);
 	}
 	
 	public static void setMinecraftAccountData(MinecraftAccountData data) {
 		final Minecraft minecraft = Minecraft.getInstance();
 		
-		minecraft.userApiService = data.userApiService;
 		minecraft.user = data.user;
+		minecraft.profileFuture = data.profileFuture;
+		minecraft.userApiService = data.userApiService;
+		minecraft.userPropertiesFuture = data.userPropertiesFuture;
+		minecraft.getSplashManager().user = data.user;
 		minecraft.playerSocialManager = data.playerSocialManager;
-		minecraft.telemetryManager = data.clientTelemetryManager;
+		minecraft.telemetryManager = data.telemetryManager;
 		minecraft.profileKeyPairManager = data.profileKeyPairManager;
 		minecraft.reportingContext = data.reportingContext;
+		
+		final RealmsClient realmsClient = RealmsClient.create(minecraft);
+		minecraft.realmsDataFetcher = new RealmsDataFetcher(realmsClient);
+		RealmsAvailability.future = null; // Force refresh realms
 	}
 	
-	public static record MinecraftAccountData(UserApiService userApiService, User user, PlayerSocialManager playerSocialManager, ClientTelemetryManager clientTelemetryManager, ProfileKeyPairManager profileKeyPairManager, ReportingContext reportingContext) {
+	public static record MinecraftAccountData(User user, CompletableFuture<ProfileResult> profileFuture, UserApiService userApiService, CompletableFuture<UserProperties> userPropertiesFuture, PlayerSocialManager playerSocialManager, ClientTelemetryManager telemetryManager, ProfileKeyPairManager profileKeyPairManager, ReportingContext reportingContext) {
 	}
 }
