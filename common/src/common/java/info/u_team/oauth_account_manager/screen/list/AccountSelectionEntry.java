@@ -45,7 +45,7 @@ public class AccountSelectionEntry extends AbstractAccountSelectionEntry {
 			return;
 		}
 		final AccountCheckValidScreen validScreen = new AccountCheckValidScreen(ourScreen, retry, () -> {
-			final AccountUseScreen useScreen = new AccountUseScreen(ourScreen, getProfile(), () -> AuthenticationUtil.createMinecraftAccountData(loadedAccount, getProfile()));
+			final AccountUseScreen useScreen = new AccountUseScreen(ourScreen, getProfile(), () -> AuthenticationUtil.createMinecraftAccountData(loadedAccount));
 			minecraft.setScreen(useScreen);
 		});
 		validScreen.checkAccount(loadedAccount.user().accessToken());

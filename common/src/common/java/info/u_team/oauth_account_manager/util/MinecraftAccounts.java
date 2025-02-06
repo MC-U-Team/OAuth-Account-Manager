@@ -77,7 +77,7 @@ public class MinecraftAccounts {
 	}
 	
 	public static Future<?> enqueueLoad() {
-		return Util.ioPool().submit(() -> {
+		return Util.nonCriticalIoPool().submit(() -> {
 			try {
 				load();
 			} catch (final IOException ex) {
@@ -87,7 +87,7 @@ public class MinecraftAccounts {
 	}
 	
 	public static Future<?> enqueueSave() {
-		return Util.ioPool().submit(() -> {
+		return Util.nonCriticalIoPool().submit(() -> {
 			try {
 				save();
 			} catch (final IOException ex) {

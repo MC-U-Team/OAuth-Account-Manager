@@ -5,7 +5,6 @@ import com.mojang.authlib.GameProfile;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.AccountUseScreen;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil.MinecraftAccountData;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -19,11 +18,8 @@ public class LaunchedAccountSelectionEntry extends AbstractAccountSelectionEntry
 	
 	static {
 		final Minecraft minecraft = Minecraft.getInstance();
-		LAUNCHED_DATA = new MinecraftAccountData(minecraft.userApiService, minecraft.user, minecraft.playerSocialManager, minecraft.telemetryManager, minecraft.profileKeyPairManager, minecraft.reportingContext);
-		LAUNCHED_GAME_PROFILE = new GameProfile(LAUNCHED_DATA.user().getProfileId(), LAUNCHED_DATA.user().getName());
-		Util.nonCriticalIoPool().execute(() -> {
-			LAUNCHED_GAME_PROFILE = minecraft.getGameProfile();
-		});
+		LAUNCHED_DATA = new MinecraftAccountData(minecraft.user, minecraft.profileFuture, minecraft.userApiService, minecraft.userPropertiesFuture, minecraft.playerSocialManager, minecraft.telemetryManager, minecraft.profileKeyPairManager, minecraft.reportingContext);
+		LAUNCHED_GAME_PROFILE = minecraft.getGameProfile();
 	}
 	
 	public LaunchedAccountSelectionEntry(Screen ourScreen, AccountSelectionList selectionList) {
