@@ -15,7 +15,6 @@ public class AccountSelectionList extends ScrollableList<AbstractAccountSelectio
 	public AccountSelectionList(Screen ourScreen) {
 		super(0, 0, 0, 0, 36, 0);
 		this.ourScreen = ourScreen;
-		setRenderTransparentBorder(true);
 	}
 	
 	@Override
