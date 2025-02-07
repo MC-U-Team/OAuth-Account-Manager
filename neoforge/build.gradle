@@ -57,10 +57,16 @@ subsystems {
 runs {
 	sourceSets.main.runs.modIdentifier = config.mod.modid
 	sourceSets.data.runs.modIdentifier = config.mod.modid
-		
+	
+	configureEach {
+		dependencies {
+			runtime configurations.shade
+		}
+	}
+	
 	client {
 		workingDirectory file("run/client").with { mkdirs(); it }
-				
+		
 		modSources sourceSets.main
 	}
 	
@@ -72,7 +78,7 @@ runs {
 	
 	data {
 		workingDirectory file("run/data").with { mkdirs(); it }
-				
+		
 		arguments "--mod", config.mod.modid
 		arguments "--all"
 		arguments  "--output", gradlefiles.project("common").file("src/common_generated/resources").absolutePath
