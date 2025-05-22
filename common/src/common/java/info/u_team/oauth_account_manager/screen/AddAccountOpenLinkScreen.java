@@ -2,10 +2,12 @@ package info.u_team.oauth_account_manager.screen;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.layouts.EqualSpacingLayout;
@@ -70,11 +72,11 @@ public class AddAccountOpenLinkScreen extends UScreen {
 	private void startAuthenticationProcess(boolean open) {
 		final AuthenticationMethod method = AuthenticationUtil.createWebAuthenticationMethod();
 		method.registerLoginUrlCallback(url -> {
-			minecraft.execute(() -> {
+			MinecraftExecutor.executeOnMainThread(() -> {
 				if (open) {
 					Util.getPlatform().openUri(url.toString());
 				} else {
-					minecraft.keyboardHandler.setClipboard(url.toString());
+					Minecraft.getInstance().keyboardHandler.setClipboard(url.toString());
 				}
 			});
 		});

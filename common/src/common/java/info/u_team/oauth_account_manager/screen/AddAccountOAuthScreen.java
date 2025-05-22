@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import info.u_team.oauth_account_manager.OAuthAccountManagerReference;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
 import net.hycrafthd.simple_minecraft_authenticator.method.AuthenticationMethod;
 import net.hycrafthd.simple_minecraft_authenticator.result.AuthenticationResult;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -31,16 +33,16 @@ public class AddAccountOAuthScreen extends CommonWaitingScreen {
 				result = method.initalAuthentication();
 			} catch (final AuthenticationException ex) {
 				if (!(ex.getCause() instanceof InterruptedException)) {
-					minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
+					MinecraftExecutor.executeOnMainThread(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ADD_ACCOUNT_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 					OAuthAccountManagerReference.LOGGER.warn("Microsoft OAuth didn't complete sucessfully", ex);
 				}
 				return;
 			}
 			
-			minecraft.execute(() -> {
+			MinecraftExecutor.executeOnMainThread(() -> {
 				final AccountLoginScreen screen = new AccountLoginScreen(lastScreen);
 				screen.login(Optional.empty(), () -> result, null);
-				minecraft.setScreen(screen);
+				Minecraft.getInstance().setScreen(screen);
 			});
 		});
 	}

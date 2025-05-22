@@ -8,9 +8,11 @@ import com.mojang.authlib.exceptions.AuthenticationException;
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil.MinecraftAccountData;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.layouts.EqualSpacingLayout;
@@ -86,16 +88,16 @@ public class AccountUseScreen extends UScreen {
 	}
 	
 	private void useAccount() {
-		minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING)));
+		MinecraftExecutor.executeOnMainThread(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_WAITING)));
 		CompletableFuture.runAsync(() -> {
 			try {
 				final MinecraftAccountData data = accountDataSupplier.create();
-				minecraft.execute(() -> {
+				MinecraftExecutor.executeOnMainThread(() -> {
 					AuthenticationUtil.setMinecraftAccountData(data);
-					minecraft.setScreen(lastScreen);
+					Minecraft.getInstance().setScreen(lastScreen);
 				});
 			} catch (final AuthenticationException ex) {
-				minecraft.execute(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR)));
+				MinecraftExecutor.executeOnMainThread(() -> setInformationMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_USE_ACCOUNT_MESSAGE_ERROR)));
 			}
 		});
 	}

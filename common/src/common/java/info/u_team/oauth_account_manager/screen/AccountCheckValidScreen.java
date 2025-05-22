@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.screen.UScreen;
 import net.minecraft.client.gui.GuiGraphics;
@@ -91,7 +92,7 @@ public class AccountCheckValidScreen extends UScreen {
 	
 	public void checkAccount(String accessToken) {
 		future = AuthenticationUtil.isAccessTokenValid(accessToken).orTimeout(30, TimeUnit.SECONDS).thenAccept(valid -> {
-			minecraft.execute(() -> {
+			MinecraftExecutor.executeOnMainThread(() -> {
 				if (valid) {
 					validCallback.run();
 				} else {

@@ -2,6 +2,7 @@ package info.u_team.oauth_account_manager.screen;
 
 import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.util.AuthenticationUtil;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import info.u_team.u_team_core.gui.elements.UButton;
 import info.u_team.u_team_core.util.RGBA;
 import net.minecraft.ChatFormatting;
@@ -36,7 +37,7 @@ public class MultiplayerScreenAdditions {
 				color = INVALID_COLOR;
 				tooltip = Component.translatable(OAuthAccountManagerLocalization.SCREEN_MULTIPLAYER_ADDITION_ACCOUNT_BUTTON_TOOLTIP_INVALID).withStyle(ChatFormatting.RED);
 			}
-			Minecraft.getInstance().execute(() -> {
+			MinecraftExecutor.executeOnMainThread(() -> {
 				button.setButtonColor(color);
 				button.setTooltip(Tooltip.create(tooltip));
 			});

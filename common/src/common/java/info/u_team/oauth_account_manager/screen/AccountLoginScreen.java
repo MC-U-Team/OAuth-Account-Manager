@@ -13,6 +13,7 @@ import info.u_team.oauth_account_manager.init.OAuthAccountManagerLocalization;
 import info.u_team.oauth_account_manager.screen.widget.PlayerIconWidget;
 import info.u_team.oauth_account_manager.util.LoadedAccount;
 import info.u_team.oauth_account_manager.util.MinecraftAccounts;
+import info.u_team.oauth_account_manager.util.MinecraftExecutor;
 import net.hycrafthd.minecraft_authenticator.login.AuthenticationException;
 import net.hycrafthd.minecraft_authenticator.login.Authenticator;
 import net.hycrafthd.minecraft_authenticator.login.LoginState;
@@ -69,13 +70,13 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 				AuthenticationFutureUtil.runAuthentication(SimpleMinecraftAuthentication.getExecutor(), () -> {
 					// Run authentication to minecraft services
 					authenticator.run(state -> {
-						minecraft.execute(() -> setInformationMessage(getLoginStateComponent(state)));
+						MinecraftExecutor.executeOnMainThread(() -> setInformationMessage(getLoginStateComponent(state)));
 					});
 					return null;
 				}, 300, true);
 			} catch (final AuthenticationException ex) {
 				if (!(ex.getCause() instanceof InterruptedException)) {
-					minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
+					MinecraftExecutor.executeOnMainThread(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 					OAuthAccountManagerReference.LOGGER.warn("Authentication with minecraft services didn't complete sucessfully", ex);
 				}
 				
@@ -102,7 +103,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 					}
 				}
 			} catch (final IllegalArgumentException ex) {
-				minecraft.execute(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
+				MinecraftExecutor.executeOnMainThread(() -> setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_ERROR, ex.getLocalizedMessage())));
 				OAuthAccountManagerReference.LOGGER.error("Cannot add minecraft account", ex);
 				return;
 			}
@@ -113,7 +114,7 @@ public class AccountLoginScreen extends CommonWaitingScreen {
 			// Add account
 			MinecraftAccounts.addAccount(uuid, authenticator.getResultFile(), profile, new LoadedAccount(user, xboxProfile));
 			
-			minecraft.execute(() -> {
+			MinecraftExecutor.executeOnMainThread(() -> {
 				playerIconWidget.setProfile(profile);
 				setFinalMessage(Component.translatable(OAuthAccountManagerLocalization.SCREEN_ACOUNT_LOGIN_INFORMATION_MESSAGE_SUCCESS, authenticator.getUser().get().name()));
 				if (callback != null) {
